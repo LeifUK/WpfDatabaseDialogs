@@ -5,12 +5,11 @@ namespace WpfFungusApp.DBStore
 {
     internal class DatabaseHelpers
     {
-        private static Dictionary<long, string> LoadImagePaths(PetaPoco.Database database)
+        private static Dictionary<long, string> LoadImagePaths(PetaPoco.Database database, IImagePathsStore iImagePathsStore)
         {
             Dictionary<long, string> paths = new Dictionary<long, string>();
 
-            ImagePathsStore imagePathsStore = new ImagePathsStore(database);
-            foreach (DBObject.ImagePath imagePath in imagePathsStore.Enumerator)
+            foreach (DBObject.ImagePath imagePath in iImagePathsStore.Enumerator)
             {
                 paths.Add(imagePath.id, imagePath.path);
             }
@@ -18,9 +17,9 @@ namespace WpfFungusApp.DBStore
             return paths;
         }
 
-        public static void LoadImages(PetaPoco.Database database, DBObject.Species species)
+        public static void LoadImages(PetaPoco.Database database, IImagePathsStore iImagePathsStore, DBObject.Species species)
         {
-            Dictionary<long, string> paths = LoadImagePaths(database);
+            Dictionary<long, string> paths = LoadImagePaths(database, iImagePathsStore);
 
             species.Images = new List<DBObject.Image>(); 
             
@@ -46,9 +45,9 @@ namespace WpfFungusApp.DBStore
             }
         }
 
-        public static bool ParseImagePath(PetaPoco.Database database, List<DBObject.Image> images)
+        public static bool ParseImagePath(PetaPoco.Database database, IImagePathsStore iImagePathsStore, List<DBObject.Image> images)
         {
-            Dictionary<long, string> paths = LoadImagePaths(database);
+            Dictionary<long, string> paths = LoadImagePaths(database, iImagePathsStore);
 
             foreach (var image in images)
             {

@@ -68,7 +68,7 @@ namespace WpfFungusApp.ViewModel
         private void WriteImages(DBObject.Species species)
         {
             byte displayOrder = 0;
-            DatabaseHelpers.ParseImagePath(Database, species.Images);
+            DatabaseHelpers.ParseImagePath(Database, IImagePathsStore, species.Images);
 
             foreach (DBObject.Image image in species.Images)
             {
@@ -139,7 +139,7 @@ namespace WpfFungusApp.ViewModel
         public void DeleteSpecies(int index)
         {
             DBObject.Species species = SelectedSpecies;
-            DatabaseHelpers.LoadImages(Database, species);
+            DatabaseHelpers.LoadImages(Database, IImagePathsStore, species);
 
             Database.BeginTransaction();
             try

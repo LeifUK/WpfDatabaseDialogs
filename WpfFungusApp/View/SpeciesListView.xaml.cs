@@ -36,7 +36,7 @@ namespace WpfFungusApp.View
             DBObject.Species species = speciesListViewModel.SpeciesCollection[_datagrid.SelectedIndex] as DBObject.Species;
             // Edit a clone of the species
             DBObject.Species editedSpecies = species.Clone();
-            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, editedSpecies);
+            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, speciesListViewModel.IImagePathsStore, editedSpecies);
 
             View.SpeciesView speciesView = new SpeciesView();
             ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IConfigurationStore, editedSpecies);
@@ -117,7 +117,7 @@ namespace WpfFungusApp.View
             List<DBObject.Species> listSpecies = speciesListViewModel.SpeciesCollection.Select(n => n as DBObject.Species).ToList();
             foreach (DBObject.Species species in listSpecies)
             {
-                DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, species);
+                DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, speciesListViewModel.IImagePathsStore, species);
             }
 
             string filename = System.IO.Path.Combine(exportFolder, "Fungi.html");

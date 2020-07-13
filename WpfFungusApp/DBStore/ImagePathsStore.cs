@@ -4,19 +4,16 @@ using System.Linq;
 
 namespace WpfFungusApp.DBStore
 {
-    internal class ImagePathsStore : IImagePathsStore
+    internal abstract class ImagePathsStore : IImagePathsStore
     {
         public ImagePathsStore(PetaPoco.Database database)
         {
             _database = database;
         }
 
-        private readonly PetaPoco.Database _database;
+        protected readonly PetaPoco.Database _database;
 
-        public void CreateTable()
-        {
-            _database.Execute("CREATE TABLE tblImagesDatabase (id INTEGER PRIMARY KEY, path TEXT UNIQUE);");
-        }
+        public abstract void CreateTable();
 
         public void Update(DBObject.ImagePath imagePath)
         {

@@ -2,19 +2,16 @@
 
 namespace WpfFungusApp.DBStore
 {
-    class ConfigurationStore : IConfigurationStore
+    abstract class ConfigurationStore : IConfigurationStore
     {
         public ConfigurationStore(PetaPoco.Database database)
         {
             _database = database;
         }
 
-        private readonly PetaPoco.Database _database;
+        protected readonly PetaPoco.Database _database;
 
-        public void CreateTable()
-        {
-            _database.Execute("CREATE TABLE tblConfiguration (name TEXT NOT NULL, value TEXT NOT NULL, PRIMARY KEY(name));");
-        }
+        public abstract void CreateTable();
 
         private void CreateIfNotExists(DBObject.Configuration configuration)
         {

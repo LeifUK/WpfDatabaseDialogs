@@ -74,6 +74,14 @@
     <Compile Include="DBStore\ImageStore.cs" />
     <Compile Include="DBStore\ISpeciesStore.cs" />
     <Compile Include="DBStore\SpeciesStore.cs" />
+    <Compile Include="DBStore\SQLiteConfigurationStore.cs" />
+    <Compile Include="DBStore\SQLiteImagePathsStore.cs" />
+    <Compile Include="DBStore\SQLiteImageStore.cs" />
+    <Compile Include="DBStore\SQLiteSpeciesStore.cs" />
+    <Compile Include="DBStore\SQLServerConfigurationStore.cs" />
+    <Compile Include="DBStore\SQLServerImagePathsStore.cs" />
+    <Compile Include="DBStore\SQLServerImageStore.cs" />
+    <Compile Include="DBStore\SQLServerSpeciesStore.cs" />
     <Compile Include="Export\FungalGenusGroups.cs" />
     <Compile Include="Export\PageWriterBase.cs" />
     <Compile Include="Export\PageWriterFungus.cs" />

@@ -9,7 +9,7 @@
         public override void CreateTable() 
         {
             _database.Execute("CREATE TABLE tblImages ( " +
-                    "id INTEGER NOT NULL PRIMARY KEY, " +
+                    "id INTEGER NOT NULL IDENTITY PRIMARY KEY, " +
                     "fungus_id INTEGER NOT NULL, " +
                     "image_database_id INTEGER NULL, " +
                     "filename VARCHAR(1000) NOT NULL, " +

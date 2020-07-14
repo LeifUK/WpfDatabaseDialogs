@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WpfFungusApp.DBStore
+﻿namespace WpfFungusApp.DBStore
 {
     class SQLServerImagePathsStore : ImagePathsStore, IImagePathsStore
     {
@@ -15,7 +9,7 @@ namespace WpfFungusApp.DBStore
 
         public override void CreateTable()
         {
-            _database.Execute("CREATE TABLE tblImagesDatabase (id INTEGER PRIMARY KEY, path VARCHAR(100) UNIQUE);");
+            _database.Execute("CREATE TABLE tblImagesDatabase (id INTEGER IDENTITY PRIMARY KEY, path VARCHAR(100) UNIQUE);");
         }
     }
 }

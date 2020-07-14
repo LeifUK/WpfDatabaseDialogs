@@ -7,24 +7,15 @@ namespace WpfFungusApp.ViewModel
 {
     internal class SpeciesListViewModel : BaseViewModel
     {
-        public SpeciesListViewModel(PetaPoco.Database database, DBStore.IConfigurationStore iConfigurationStore, DBStore.ISpeciesStore iSpeciesStore, DBStore.IImagePathsStore iImagePathsStore, DBStore.IImageStore iImageStore)
+        public SpeciesListViewModel(IDatabaseHost iDatabaseHost)
         {
-            Database = database;
-            IConfigurationStore = iConfigurationStore;
-            ISpeciesStore = iSpeciesStore;
-            IImagePathsStore = iImagePathsStore;
-            IImageStore = iImageStore;
+            IDatabaseHost = iDatabaseHost;
 
             SpeciesCollection = new System.Collections.ObjectModel.ObservableCollection<DBObject.Species>();
             Load();
         }
 
-        public readonly DBStore.IConfigurationStore IConfigurationStore;
-        public readonly DBStore.ISpeciesStore ISpeciesStore;
-        public readonly DBStore.IImagePathsStore IImagePathsStore;
-        public readonly DBStore.IImageStore IImageStore;
-
-        public readonly PetaPoco.Database Database;
+        public readonly IDatabaseHost IDatabaseHost;
 
         private System.Collections.ObjectModel.ObservableCollection<DBObject.Species> _speciesCollection;
         public System.Collections.ObjectModel.ObservableCollection<DBObject.Species> SpeciesCollection
@@ -57,7 +48,7 @@ namespace WpfFungusApp.ViewModel
         public bool Load()
         {
             SpeciesCollection.Clear();
-            foreach (var species in ISpeciesStore.Enumerator)
+            foreach (var species in IDatabaseHost.ISpeciesStore.Enumerator)
             {
                 SpeciesCollection.Add(species);
             }
@@ -68,7 +59,7 @@ namespace WpfFungusApp.ViewModel
         private void WriteImages(DBObject.Species species)
         {
             byte displayOrder = 0;
-            DatabaseHelpers.ParseImagePath(Database, IImagePathsStore, species.Images);
+            DatabaseHelpers.ParseImagePath(IDatabaseHost.IImagePathsStore, species.Images);
 
             foreach (DBObject.Image image in species.Images)
             {
@@ -77,38 +68,38 @@ namespace WpfFungusApp.ViewModel
                 image.fungus_id = species.id;
                 if (image.id == 0)
                 {
-                    IImageStore.Insert(image);
+                    IDatabaseHost.IImageStore.Insert(image);
                 }
                 else
                 {
-                    IImageStore.Update(image);
+                    IDatabaseHost.IImageStore.Update(image);
                 }
             }
         }
 
         public void UpdateSpecies(DBObject.Species species, DBObject.Species editedSpecies)
         {
-            Database.BeginTransaction();
+            IDatabaseHost.Database.BeginTransaction();
             try
             {
-                ISpeciesStore.Update(editedSpecies);
+                IDatabaseHost.ISpeciesStore.Update(editedSpecies);
 
                 List<Int64> editedImageIds = editedSpecies.Images.Select(n => n.id).ToList();
                 foreach (DBObject.Image image in species.Images)
                 {
                     if (!editedImageIds.Contains(image.id))
                     {
-                        IImageStore.Delete(image);
+                        IDatabaseHost.IImageStore.Delete(image);
                     }
                 }
 
                 WriteImages(editedSpecies);
 
-                Database.CompleteTransaction();
+                IDatabaseHost.Database.CompleteTransaction();
             }
             catch
             {
-                Database.AbortTransaction();
+                IDatabaseHost.Database.AbortTransaction();
             }
 
             Load();
@@ -116,17 +107,17 @@ namespace WpfFungusApp.ViewModel
 
         public void InsertSpecies(DBObject.Species species)
         {
-            Database.BeginTransaction();
+            IDatabaseHost.Database.BeginTransaction();
             try
             {
-                ISpeciesStore.Insert(species);
+                IDatabaseHost.ISpeciesStore.Insert(species);
                 WriteImages(species);
 
-                Database.CompleteTransaction();
+                IDatabaseHost.Database.CompleteTransaction();
             }
             catch
             {
-                Database.AbortTransaction();
+                IDatabaseHost.Database.AbortTransaction();
             }
             Load();
             var enumerator = SpeciesCollection.Where(n => n.id == species.id);
@@ -139,22 +130,22 @@ namespace WpfFungusApp.ViewModel
         public void DeleteSpecies(int index)
         {
             DBObject.Species species = SelectedSpecies;
-            DatabaseHelpers.LoadImages(Database, IImagePathsStore, species);
+            DatabaseHelpers.LoadImages(IDatabaseHost, species);
 
-            Database.BeginTransaction();
+            IDatabaseHost.Database.BeginTransaction();
             try
             {
                 foreach (var image in species.Images)
                 {
-                    IImageStore.Delete(image);
+                    IDatabaseHost.IImageStore.Delete(image);
                 }
-                ISpeciesStore.Delete(species);
+                IDatabaseHost.ISpeciesStore.Delete(species);
 
-                Database.CompleteTransaction();
+                IDatabaseHost.Database.CompleteTransaction();
             }
             catch
             {
-                Database.AbortTransaction();
+                IDatabaseHost.Database.AbortTransaction();
             }
             Load();
         }

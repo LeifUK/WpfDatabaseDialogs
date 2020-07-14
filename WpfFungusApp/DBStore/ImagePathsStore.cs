@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace WpfFungusApp.DBStore
 {
@@ -22,8 +20,7 @@ namespace WpfFungusApp.DBStore
 
         public void Insert(DBObject.ImagePath imagePath)
         {
-            _database.Insert("tblImagesDatabase", "id", imagePath);
-            imagePath.id = _database.Query<Int64>("select last_insert_rowid()").First();
+            imagePath.id = (long)(int)_database.Insert("tblImagesDatabase", "id", imagePath);
         }
 
         public void Delete(DBObject.ImagePath imagePath)

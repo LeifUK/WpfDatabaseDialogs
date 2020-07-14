@@ -36,10 +36,11 @@ namespace WpfFungusApp.View
             DBObject.Species species = speciesListViewModel.SpeciesCollection[_datagrid.SelectedIndex] as DBObject.Species;
             // Edit a clone of the species
             DBObject.Species editedSpecies = species.Clone();
-            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, speciesListViewModel.IImagePathsStore, editedSpecies);
+            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, species);
+            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, editedSpecies);
 
             View.SpeciesView speciesView = new SpeciesView();
-            ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IConfigurationStore, editedSpecies);
+            ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IDatabaseHost.IConfigurationStore, editedSpecies);
             speciesView.DataContext = speciesViewModel;
             speciesView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             speciesView.Owner = this;
@@ -58,7 +59,7 @@ namespace WpfFungusApp.View
             DBObject.Species species = new DBObject.Species();
 
             View.SpeciesView speciesView = new SpeciesView();
-            ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IConfigurationStore, species);
+            ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IDatabaseHost.IConfigurationStore, species);
             speciesView.DataContext = speciesViewModel;
             speciesView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             speciesView.Owner = this;
@@ -92,10 +93,7 @@ namespace WpfFungusApp.View
         {
             ViewModel.SpeciesListViewModel speciesListViewModel = DataContext as ViewModel.SpeciesListViewModel;
             View.ConfigurationView configurationView = new ConfigurationView();
-            ViewModel.ConfigurationViewModel configurationViewModel = new ViewModel.ConfigurationViewModel(
-                speciesListViewModel.IConfigurationStore,
-                speciesListViewModel.IImagePathsStore,
-                speciesListViewModel.IImageStore);
+            ViewModel.ConfigurationViewModel configurationViewModel = new ViewModel.ConfigurationViewModel(speciesListViewModel.IDatabaseHost);
             configurationView.DataContext = configurationViewModel;
             configurationView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             configurationView.Owner = this;
@@ -111,13 +109,13 @@ namespace WpfFungusApp.View
         {
             ViewModel.SpeciesListViewModel speciesListViewModel = DataContext as ViewModel.SpeciesListViewModel;
 
-            string exportFolder = speciesListViewModel.IConfigurationStore.ExportFolder;
-            bool overwriteImages = speciesListViewModel.IConfigurationStore.OverwriteImages;
+            string exportFolder = speciesListViewModel.IDatabaseHost.IConfigurationStore.ExportFolder;
+            bool overwriteImages = speciesListViewModel.IDatabaseHost.IConfigurationStore.OverwriteImages;
 
             List<DBObject.Species> listSpecies = speciesListViewModel.SpeciesCollection.Select(n => n as DBObject.Species).ToList();
             foreach (DBObject.Species species in listSpecies)
             {
-                DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.Database, speciesListViewModel.IImagePathsStore, species);
+                DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, species);
             }
 
             string filename = System.IO.Path.Combine(exportFolder, "Fungi.html");

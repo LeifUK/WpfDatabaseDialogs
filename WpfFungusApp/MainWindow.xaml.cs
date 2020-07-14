@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PetaPoco;
+using System;
 using System.Windows;
+using WpfFungusApp.DBStore;
 
 namespace WpfFungusApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, DBStore.IDatabaseHost
     {
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private DBStore.ConfigurationStore _configurationStore;
-        private DBStore.SpeciesStore _speciesStore;
-        private DBStore.ImagePathsStore _imagePathsStore;
-        private DBStore.ImageStore _imageStore;
+        IDatabaseHost IDatabaseHost { get { return this; } }
+        Database IDatabaseHost.Database { get; set; }
+        IConfigurationStore IDatabaseHost.IConfigurationStore { get; set; }
+        ISpeciesStore IDatabaseHost.ISpeciesStore { get; set; }
+        IImagePathsStore IDatabaseHost.IImagePathsStore { get; set; }
+        IImageStore IDatabaseHost.IImageStore { get; set; }
 
         private void ShowSpeciesListView(PetaPoco.Database database)
         {
             View.SpeciesListView speciesListView = new View.SpeciesListView();
-            ViewModel.SpeciesListViewModel speciesListViewModel = new ViewModel.SpeciesListViewModel(
-                database,
-                _configurationStore,
-                _speciesStore,
-                _imagePathsStore,
-                _imageStore);
+            ViewModel.SpeciesListViewModel speciesListViewModel = new ViewModel.SpeciesListViewModel(this);
             speciesListView.DataContext = speciesListViewModel;
             speciesListViewModel.Load();
             speciesListView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -50,27 +45,28 @@ namespace WpfFungusApp
                 return;
             }
 
-            PetaPoco.Database database = null;
-            if (dialog.FilterIndex == 1)
+            try
             {
-                database = new PetaPoco.Database("Data Source=" + dialog.FileName + ";Version=3;", "System.Data.SQLite");
+                if (dialog.FilterIndex == 1)
+                {
+                    SQLiteDatabase.OpenDatabase(this, dialog.FileName);
+                }
+                else if (dialog.FilterIndex == 2)
+                {
+                    SQLServerDatabase.OpenDatabase(this, dialog.FileName);
+                }
+                else
+                {
+                    throw new Exception("Unsupported database type");
+                }
             }
-            else if (dialog.FilterIndex == 2)
+            catch (Exception exception)
             {
-                string dbName = System.IO.Path.GetFileNameWithoutExtension(dialog.FileName);
-                database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = " + dbName, "System.Data.SqlClient");
+                System.Windows.Forms.MessageBox.Show(exception.Message);
+                return;
             }
-            else
-            {
-                throw new Exception("Unsupported database type");
-            }
-                
-            database.OpenSharedConnection();
-            _configurationStore = new DBStore.SQLiteConfigurationStore(database);
-            _speciesStore = new DBStore.SQLiteSpeciesStore(database);
-            _imagePathsStore = new DBStore.SQLiteImagePathsStore(database);
-            _imageStore = new DBStore.SQLiteImageStore(database);
-            ShowSpeciesListView(database);
+
+            ShowSpeciesListView(IDatabaseHost.Database);
         }
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
@@ -84,52 +80,29 @@ namespace WpfFungusApp
                 return;
             }
 
-            string path = System.IO.Path.Combine(newDatabaseViewModel.Folder, newDatabaseViewModel.Name + ".sqlite");
-
-            PetaPoco.Database database = null;
-            if (newDatabaseViewModel.SelectedDatabaseProvider == 0)
+            try
             {
-                database = new PetaPoco.Database("Data Source=" + path + ";Version=3;", "System.Data.SQLite");
-                database.OpenSharedConnection();
-
-                _configurationStore = new DBStore.SQLiteConfigurationStore(database);
-                _speciesStore = new DBStore.SQLiteSpeciesStore(database);
-                _imagePathsStore = new DBStore.SQLiteImagePathsStore(database);
-                _imageStore = new DBStore.SQLiteImageStore(database);
+                DatabaseType databaseType = (DatabaseType)newDatabaseViewModel.SelectedDatabaseProvider;
+                if (databaseType == DatabaseType.MicrosoftSqlServer)
+                {
+                    SQLServerDatabase.NewDatabaseView(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                }
+                else if (databaseType == DatabaseType.SQLite)
+                {
+                    SQLiteDatabase.NewDatabaseView(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                }
+                else
+                {
+                    throw new Exception("Unsupported database type");
+                }
             }
-            else if (newDatabaseViewModel.SelectedDatabaseProvider == 1)
+            catch (Exception exception)
             {
-                string dbName = newDatabaseViewModel.Name;
-                string filename = System.IO.Path.Combine(newDatabaseViewModel.Folder, dbName);
-
-                // Connect to the master DB to create the requested database
-
-                database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = master", "System.Data.SqlClient");
-                database.OpenSharedConnection();
-                database.Execute("CREATE DATABASE " + dbName + " ON PRIMARY (Name=" + dbName + ", filename = \"" + filename + ".mdf\")log on (name=" + dbName + "_log, filename=\"" + filename + ".ldf\")");
-                database.CloseSharedConnection();
-
-                // Connect to the new database
-
-                database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = " + dbName, "System.Data.SqlClient");
-                database.OpenSharedConnection();
-
-                _configurationStore = new DBStore.SQLServerConfigurationStore(database);
-                _speciesStore = new DBStore.SQLServerSpeciesStore(database);
-                _imagePathsStore = new DBStore.SQLServerImagePathsStore(database);
-                _imageStore = new DBStore.SQLServerImageStore(database);
-            }
-            else
-            {
-                throw new Exception("Unsupported database type");
+                System.Windows.Forms.MessageBox.Show(exception.Message);
+                return;
             }
 
-            _configurationStore.CreateTable();
-            _configurationStore.Initialise();
-            _speciesStore.CreateTable();
-            _imagePathsStore.CreateTable();
-            _imageStore.CreateTable();
-            ShowSpeciesListView(database);
+            ShowSpeciesListView(IDatabaseHost.Database);
         }
     }
 }

@@ -21,8 +21,7 @@ namespace WpfFungusApp.DBStore
 
         public void Insert(DBObject.Image image)
         {
-            _database.Insert("tblImages", "id", image);
-            image.id = _database.Query<Int64>("select last_insert_rowid()").First();
+            image.id = (long)(int)_database.Insert("tblImages", "id", image);
         }
 
         public void Update(DBObject.Image image)

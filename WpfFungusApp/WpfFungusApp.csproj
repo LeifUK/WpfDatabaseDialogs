@@ -67,7 +67,9 @@
     </ApplicationDefinition>
     <Compile Include="DBStore\DatabaseHelpers.cs" />
     <Compile Include="DBStore\ConfigurationStore.cs" />
+    <Compile Include="DBStore\DatabaseType.cs" />
     <Compile Include="DBStore\IConfigurationStore.cs" />
+    <Compile Include="DBStore\IDatabaseHost.cs" />
     <Compile Include="DBStore\IImagePathsStore.cs" />
     <Compile Include="DBStore\IImageStore.cs" />
     <Compile Include="DBStore\ImagePathsStore.cs" />
@@ -75,10 +77,13 @@
     <Compile Include="DBStore\ISpeciesStore.cs" />
     <Compile Include="DBStore\SpeciesStore.cs" />
     <Compile Include="DBStore\SQLiteConfigurationStore.cs" />
+    <Compile Include="DBStore\SQLiteDatabase.cs" />
     <Compile Include="DBStore\SQLiteImagePathsStore.cs" />
     <Compile Include="DBStore\SQLiteImageStore.cs" />
     <Compile Include="DBStore\SQLiteSpeciesStore.cs" />
+    <Compile Include="DBStore\SQLiteStore.cs" />
     <Compile Include="DBStore\SQLServerConfigurationStore.cs" />
+    <Compile Include="DBStore\SQLServerDatabase.cs" />
     <Compile Include="DBStore\SQLServerImagePathsStore.cs" />
     <Compile Include="DBStore\SQLServerImageStore.cs" />
     <Compile Include="DBStore\SQLServerSpeciesStore.cs" />

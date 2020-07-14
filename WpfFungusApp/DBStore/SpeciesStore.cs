@@ -15,7 +15,7 @@ namespace WpfFungusApp.DBStore
 
         public void Insert(DBObject.Species species)
         {
-            _database.Insert("tblFungi", "id", species);
+            species.id = (long)(int)_database.Insert("tblFungi", "id", species);
         }
 
         public void Update(DBObject.Species species)

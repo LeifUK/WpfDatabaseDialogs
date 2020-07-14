@@ -8,29 +8,25 @@ namespace WpfFungusApp.ViewModel
 {
     class ConfigurationViewModel : BaseViewModel
     {
-        public ConfigurationViewModel(DBStore.IConfigurationStore iConfigurationStore, DBStore.IImagePathsStore iImagePathsStore, DBStore.IImageStore iImageStore)
+        public ConfigurationViewModel(DBStore.IDatabaseHost iDatabaseHost)
         {
-            _iConfigurationStore = iConfigurationStore;
-            _iConfigurationStore.Initialise();
-            _iImagePathsStore = iImagePathsStore;
-            _iImageStore = iImageStore;
+            IDatabaseHost = iDatabaseHost;
+            IDatabaseHost.IConfigurationStore.Initialise();
 
-            ImagePaths = new System.Collections.ObjectModel.ObservableCollection<ImagePath>(_iImagePathsStore.Enumerator);
+            ImagePaths = new System.Collections.ObjectModel.ObservableCollection<ImagePath>(IDatabaseHost.IImagePathsStore.Enumerator);
         }
 
-        private readonly DBStore.IConfigurationStore _iConfigurationStore;
-        private readonly DBStore.IImagePathsStore _iImagePathsStore;
-        private readonly DBStore.IImageStore _iImageStore;
+        private readonly DBStore.IDatabaseHost IDatabaseHost;
 
         public string Copyright
         {
             get
             {
-                return _iConfigurationStore.Copyright;
+                return IDatabaseHost.IConfigurationStore.Copyright;
             }
             set
             {
-                _iConfigurationStore.Copyright = value;
+                IDatabaseHost.IConfigurationStore.Copyright = value;
                 NotifyPropertyChanged("Copyright");
             }
         }
@@ -39,11 +35,11 @@ namespace WpfFungusApp.ViewModel
         {
             get
             {
-                return _iConfigurationStore.ExportFolder;
+                return IDatabaseHost.IConfigurationStore.ExportFolder;
             }
             set
             {
-                _iConfigurationStore.ExportFolder = value;
+                IDatabaseHost.IConfigurationStore.ExportFolder = value;
                 NotifyPropertyChanged("ExportFolder");
             }
         }
@@ -52,11 +48,11 @@ namespace WpfFungusApp.ViewModel
         {
             get
             {
-                return _iConfigurationStore.OverwriteImages;
+                return IDatabaseHost.IConfigurationStore.OverwriteImages;
             }
             set
             {
-                _iConfigurationStore.OverwriteImages = value;
+                IDatabaseHost.IConfigurationStore.OverwriteImages = value;
                 NotifyPropertyChanged("OverwriteImages");
             }
         }
@@ -77,26 +73,26 @@ namespace WpfFungusApp.ViewModel
 
         public void UpdateImagePath(ImagePath imagePath)
         {
-            _iImagePathsStore.Update(imagePath);
+            IDatabaseHost.IImagePathsStore.Update(imagePath);
         }
 
         public void AddImagePath(string path)
         {
             DBObject.ImagePath imagePath = new ImagePath();
             imagePath.path = path;
-            _iImagePathsStore.Insert(imagePath);
+            IDatabaseHost.IImagePathsStore.Insert(imagePath);
             ImagePaths.Add(imagePath);
         }
 
         public void DeleteImagePath(ImagePath imagePath)
         {
-            if (_iImageStore.Exists(imagePath))
+            if (IDatabaseHost.IImageStore.Exists(imagePath))
             {
                 System.Windows.Forms.MessageBox.Show("Unable to remove the folder: it is referenced by one or more images");
                 return;
             }
 
-            _iImagePathsStore.Delete(imagePath);
+            IDatabaseHost.IImagePathsStore.Delete(imagePath);
             ImagePaths.Remove(imagePath);
         }
     }

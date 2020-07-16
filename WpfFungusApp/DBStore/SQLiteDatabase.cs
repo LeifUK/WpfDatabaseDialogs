@@ -5,7 +5,7 @@ namespace WpfFungusApp.DBStore
 {
     internal class SQLiteDatabase
     {
-        public static void NewDatabaseView(IDatabaseHost databaseHost, string folder, string dbName)
+        public static void NewDatabase(IDatabaseHost databaseHost, string folder, string dbName)
         {
             string path = System.IO.Path.Combine(folder, dbName + ".sqlite");
             databaseHost.Database = new PetaPoco.Database("Data Source=" + path + ";Version=3;", "System.Data.SQLite");

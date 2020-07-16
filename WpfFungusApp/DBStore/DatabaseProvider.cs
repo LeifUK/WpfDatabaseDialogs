@@ -1,8 +1,10 @@
 ﻿namespace WpfFungusApp.DBStore
 {
-    public enum DatabaseType
+    public enum DatabaseProvider
     {
         SQLite = 0,
         MicrosoftSqlServer = 1,
+        PostGreSQL = 2,
+        MySQL = 3,
     }
 }

@@ -71,6 +71,12 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.NewSqlConnectionViewModel newSqlConnectionViewModel = new ViewModel.NewSqlConnectionViewModel();
+            View.NewSqlConnectionView newSqlConnectionView = new View.NewSqlConnectionView();
+            newSqlConnectionView.DataContext = newSqlConnectionViewModel;
+            newSqlConnectionView.ShowDialog();
+
+
             View.NewDatabaseView newDatabaseView = new View.NewDatabaseView();
             ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel();
             newDatabaseView.DataContext = newDatabaseViewModel;
@@ -82,14 +88,14 @@ namespace WpfFungusApp
 
             try
             {
-                DatabaseType databaseType = (DatabaseType)newDatabaseViewModel.SelectedDatabaseProvider;
-                if (databaseType == DatabaseType.MicrosoftSqlServer)
+                DatabaseProvider databaseProvider = (DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
+                if (databaseProvider == DatabaseProvider.MicrosoftSqlServer)
                 {
-                    SQLServerDatabase.NewDatabaseView(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                    SQLServerDatabase.NewDatabase(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
                 }
-                else if (databaseType == DatabaseType.SQLite)
+                else if (databaseProvider == DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.NewDatabaseView(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                    SQLiteDatabase.NewDatabase(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
                 }
                 else
                 {

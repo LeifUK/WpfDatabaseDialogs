@@ -9,10 +9,10 @@ namespace WpfFungusApp.ViewModel
         public NewDatabaseViewModel()
         {
             DatabaseProviders = new ObservableCollection<KeyValuePair<string, int>>();
-            DatabaseProviders.Add(new KeyValuePair<string, int>("SQLite", (int)DBStore.DatabaseType.SQLite));
-            DatabaseProviders.Add(new KeyValuePair<string, int>("Microsoft SQL Server", (int)DBStore.DatabaseType.MicrosoftSqlServer));
+            DatabaseProviders.Add(new KeyValuePair<string, int>("SQLite", (int)DBStore.DatabaseProvider.SQLite));
+            DatabaseProviders.Add(new KeyValuePair<string, int>("Microsoft SQL Server", (int)DBStore.DatabaseProvider.MicrosoftSqlServer));
 
-            SelectedDatabaseProvider = (int)DBStore.DatabaseType.SQLite;
+            SelectedDatabaseProvider = (int)DBStore.DatabaseProvider.SQLite;
         }
 
         private ObservableCollection<KeyValuePair<string, int>> _databaseProviders;

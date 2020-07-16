@@ -5,14 +5,14 @@ namespace WpfFungusApp.DBStore
 {
     internal class SQLServerDatabase
     {
-        public static void NewDatabaseView(IDatabaseHost databaseHost, string folder, string dbName)
+        public static void NewDatabase(IDatabaseHost databaseHost, string folder, string dbName)
         {
             // Connect to the master DB to create the requested database
 
             databaseHost.Database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = master", "System.Data.SqlClient");
             databaseHost.Database.OpenSharedConnection();
             string filename = System.IO.Path.Combine(folder, dbName);
-            databaseHost.Database.Execute("CREATE DATABASE " + dbName + " ON PRIMARY (Name=" + dbName + ", filename = \"" + filename + ".mdf\")log on (name=" + dbName + "_log, filename=\"" + filename + ".ldf\")");
+            databaseHost.Database.Execute("CREATE DATABASE " + dbName + " ON PRIMARY (Name=" + dbName + ", filename = \"" + filename + ".mdf\") LOG ON (name=" + dbName + "_log, filename=\"" + filename + ".ldf\")");
             databaseHost.Database.CloseSharedConnection();
 
             // Connect to the new database

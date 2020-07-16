@@ -44,13 +44,61 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="1" Grid.Column="1" Content="Name" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Name}" Style="{StaticResource TextBoxStyle}"/>
-        <Label Grid.Row="3" Grid.Column="1" Content="Folder" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
-        <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Folder}" IsReadOnly="true" Style="{StaticResource TextBoxStyle}"/>
-        <Button Grid.Row="3" Grid.Column="5" x:Name="_buttonBrowse" Content="Browse" Style="{StaticResource Button80Style}" Click="_buttonBrowse_Click"/>
-        <Label Grid.Row="5" Grid.Column="1" Content="Provider" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
-        <ComboBox Grid.Row="5" Grid.Column="3" Width="200" HorizontalAlignment="Left" ItemsSource="{Binding DatabaseProviders}" DisplayMemberPath="Key" SelectedValue="{Binding SelectedDatabaseProvider}" SelectedValuePath="Value"/>
+
+        <Label Grid.Row="1" Grid.Column="1" Content="Provider" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
+        <ComboBox Grid.Row="1" Grid.Column="3" Name="_comboBoxDatabaseProvider" Width="200" HorizontalAlignment="Left" ItemsSource="{Binding DatabaseProviders}" DisplayMemberPath="Key" SelectedValue="{Binding SelectedDatabaseProvider}" SelectedValuePath="Value"/>
+
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" x:Name="_gridSqlServer">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=_comboBoxDatabaseProvider}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+            </Grid.Style>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" x:Name="_gridSQLite">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedIndex, ElementName=_comboBoxDatabaseProvider}" Value="1">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto" MinWidth="300"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="1" Grid.Column="1" Content="Name" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Name}" Style="{StaticResource TextBoxStyle}"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="Folder" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"/>
+            <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Folder}" IsReadOnly="true" Style="{StaticResource TextBoxStyle}"/>
+            <Button Grid.Row="3" Grid.Column="5" x:Name="_buttonBrowse" Content="Browse" Style="{StaticResource Button80Style}" Click="_buttonBrowse_Click"/>
+        </Grid>
 
         <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" >
             <Grid.ColumnDefinitions>

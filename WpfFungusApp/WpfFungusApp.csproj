@@ -67,7 +67,7 @@
     </ApplicationDefinition>
     <Compile Include="DBStore\DatabaseHelpers.cs" />
     <Compile Include="DBStore\ConfigurationStore.cs" />
-    <Compile Include="DBStore\DatabaseType.cs" />
+    <Compile Include="DBStore\DatabaseProvider.cs" />
     <Compile Include="DBStore\IConfigurationStore.cs" />
     <Compile Include="DBStore\IDatabaseHost.cs" />
     <Compile Include="DBStore\IImagePathsStore.cs" />
@@ -98,9 +98,11 @@
     <Compile Include="ViewModel\NewDatabaseViewModel.cs" />
     <Compile Include="ViewModel\SpeciesListViewModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
+    <Compile Include="ViewModel\NewSqlConnectionViewModel.cs" />
     <Compile Include="View\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EnumComparisonConverter .cs" />
     <Compile Include="View\NewDatabaseView.xaml.cs">
       <DependentUpon>NewDatabaseView.xaml</DependentUpon>
     </Compile>
@@ -109,6 +111,9 @@
     </Compile>
     <Compile Include="View\SpeciesView.xaml.cs">
       <DependentUpon>SpeciesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NewSqlConnectionView.xaml.cs">
+      <DependentUpon>NewSqlConnectionView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -145,6 +150,10 @@
     <Page Include="View\SpeciesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NewSqlConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

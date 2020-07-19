@@ -74,28 +74,31 @@ namespace WpfFungusApp
             ViewModel.NewSqlConnectionViewModel newSqlConnectionViewModel = new ViewModel.NewSqlConnectionViewModel();
             View.NewSqlConnectionView newSqlConnectionView = new View.NewSqlConnectionView();
             newSqlConnectionView.DataContext = newSqlConnectionViewModel;
-            newSqlConnectionView.ShowDialog();
-
-
-            View.NewDatabaseView newDatabaseView = new View.NewDatabaseView();
-            ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel();
-            newDatabaseView.DataContext = newDatabaseViewModel;
-
-            if (newDatabaseView.ShowDialog() != true)
+            if (newSqlConnectionView.ShowDialog() != true)
             {
                 return;
             }
 
             try
             {
-                DatabaseProvider databaseProvider = (DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
+                DatabaseProvider databaseProvider = (DatabaseProvider)newSqlConnectionViewModel.SelectedDatabaseProvider;
                 if (databaseProvider == DatabaseProvider.MicrosoftSqlServer)
                 {
-                    SQLServerDatabase.NewDatabase(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                    SQLServerDatabase.NewDatabase(
+                        this,
+                        newSqlConnectionViewModel.SqlServerInstances[newSqlConnectionViewModel.SelectedSqlServerInstance],
+                        newSqlConnectionViewModel.SqlServerUserName,
+                        newSqlConnectionViewModel.SqlServerPassword,
+                        newSqlConnectionViewModel.Folder, 
+                        newSqlConnectionViewModel.Filename);
+                }
+                else if (databaseProvider == DatabaseProvider.PostGreSQL)
+                {
+                    PostgreSQLDatabase.NewDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
                 }
                 else if (databaseProvider == DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.NewDatabase(this, newDatabaseViewModel.Folder, newDatabaseViewModel.Name);
+                    SQLiteDatabase.NewDatabase(this, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
                 }
                 else
                 {

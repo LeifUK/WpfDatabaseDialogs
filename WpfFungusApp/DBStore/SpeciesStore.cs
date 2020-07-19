@@ -32,7 +32,7 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                return _database.Query<DBObject.Species>("SELECT * FROM tblFungi ORDER BY species");
+                return _database.Query<DBObject.Species>("SELECT * FROM \"tblFungi\" ORDER BY species");
             }
         }
     }

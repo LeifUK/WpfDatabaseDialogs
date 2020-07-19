@@ -15,9 +15,9 @@ namespace WpfFungusApp.DBStore
 
         private void CreateIfNotExists(DBObject.Configuration configuration)
         {
-            if (_database.Query<DBObject.Configuration>("SELECT * FROM tblConfiguration WHERE name='" + configuration.Name + "'").Count() == 0)
+            if (_database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='" + configuration.Name + "'").Count() == 0)
             {
-                _database.Insert("tblConfiguration", "Name", configuration);
+                _database.Insert("tblConfiguration", "name", configuration);
             }
         }
 
@@ -46,7 +46,7 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM tblConfiguration WHERE name='copyright'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='copyright'").First();
                 return configuration != null ? configuration.Value : "";
             }
             set
@@ -59,7 +59,7 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM tblConfiguration WHERE name='export folder'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='export folder'").First();
                 return configuration != null ? configuration.Value : "";
             }
             set
@@ -72,7 +72,7 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM tblConfiguration WHERE name='overwrite'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='overwrite'").First();
                 return configuration != null ? configuration.Value == "1" : false;
             }
             set

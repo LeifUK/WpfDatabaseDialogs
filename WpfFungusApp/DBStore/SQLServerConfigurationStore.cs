@@ -8,7 +8,7 @@
 
         public override void CreateTable()
         {
-            _database.Execute("CREATE TABLE dbo.tblConfiguration (name VARCHAR(100) NOT NULL PRIMARY KEY, value VARCHAR(767) NOT NULL);");
+            _database.Execute("CREATE TABLE tblConfiguration (name VARCHAR(100) NOT NULL PRIMARY KEY, value VARCHAR(767) NOT NULL);");
         }
     }
 }

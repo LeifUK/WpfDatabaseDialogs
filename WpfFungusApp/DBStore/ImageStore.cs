@@ -15,7 +15,7 @@ namespace WpfFungusApp.DBStore
 
         public bool Exists(DBObject.ImagePath imagePath)
         {
-            return (_database.Query<DBObject.ImagePath>("SELECT * FROM tblImages WHERE image_database_id=" + imagePath.id).Count() > 0);
+            return (_database.Query<DBObject.ImagePath>("SELECT * FROM \"tblImages\" WHERE image_database_id=" + imagePath.id).Count() > 0);
         }
 
         public void Insert(DBObject.Image image)

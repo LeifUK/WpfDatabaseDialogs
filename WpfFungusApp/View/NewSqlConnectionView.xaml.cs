@@ -26,5 +26,15 @@ namespace WpfFungusApp.View
                 sqlConnectionViewModel.Folder = dialog.SelectedPath;
             }
         }
+
+        private void _buttonOK_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
+        private void _buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

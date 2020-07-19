@@ -32,7 +32,7 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                return _database.Query<DBObject.ImagePath>("SELECT * FROM tblImagesDatabase");
+                return _database.Query<DBObject.ImagePath>("SELECT * FROM \"tblImagesDatabase\"");
             }
         }
     }

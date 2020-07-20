@@ -36,6 +36,10 @@ namespace WpfFungusApp
 
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
+
+            View.OpenDatabaseView openDatabaseView = new View.OpenDatabaseView();
+            openDatabaseView.ShowDialog();
+
             System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
 
             dialog.Filter = "SQLite Database (*.sqlite)|*.sqlite|Microsoft SQL Server Database(*.mdf) | *.mdf";
@@ -50,10 +54,18 @@ namespace WpfFungusApp
                 if (dialog.FilterIndex == 1)
                 {
                     SQLiteDatabase.OpenDatabase(this, dialog.FileName);
+                    IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.SQLiteImageStore(IDatabaseHost.Database);
                 }
                 else if (dialog.FilterIndex == 2)
                 {
                     SQLServerDatabase.OpenDatabase(this, dialog.FileName);
+                    IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
                 else
                 {
@@ -84,26 +96,45 @@ namespace WpfFungusApp
                 DatabaseProvider databaseProvider = (DatabaseProvider)newSqlConnectionViewModel.SelectedDatabaseProvider;
                 if (databaseProvider == DatabaseProvider.MicrosoftSqlServer)
                 {
-                    SQLServerDatabase.NewDatabase(
+                    SQLServerDatabase.CreateDatabase(
                         this,
                         newSqlConnectionViewModel.SqlServerInstances[newSqlConnectionViewModel.SelectedSqlServerInstance],
                         newSqlConnectionViewModel.SqlServerUserName,
                         newSqlConnectionViewModel.SqlServerPassword,
                         newSqlConnectionViewModel.Folder, 
                         newSqlConnectionViewModel.Filename);
+                    IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
                 else if (databaseProvider == DatabaseProvider.PostGreSQL)
                 {
-                    PostgreSQLDatabase.NewDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+                    PostgreSQLDatabase.CreateDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+
+                    IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
                 else if (databaseProvider == DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.NewDatabase(this, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+                    SQLiteDatabase.CreateDatabase(this, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+                    IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.SQLiteImageStore(IDatabaseHost.Database);
                 }
                 else
                 {
                     throw new Exception("Unsupported database type");
                 }
+
+                IDatabaseHost.IConfigurationStore.CreateTable();
+                IDatabaseHost.IConfigurationStore.Initialise();
+                IDatabaseHost.ISpeciesStore.CreateTable();
+                IDatabaseHost.IImagePathsStore.CreateTable();
+                IDatabaseHost.IImageStore.CreateTable();
             }
             catch (Exception exception)
             {

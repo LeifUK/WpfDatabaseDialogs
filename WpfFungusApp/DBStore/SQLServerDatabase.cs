@@ -26,7 +26,7 @@ namespace WpfFungusApp.DBStore
             return stringBuilder.ToString();
         }
 
-        public static void NewDatabase(IDatabaseHost databaseHost, string dataSource, string userName, string password, string folder, string dbName)
+        public static void CreateDatabase(IDatabaseHost databaseHost, string dataSource, string userName, string password, string folder, string dbName)
         {
             // Connect to the master DB to create the requested database
 
@@ -43,29 +43,14 @@ namespace WpfFungusApp.DBStore
             connectionString = MakeConnectionString(dataSource, userName, password, dbName);
             databaseHost.Database = new PetaPoco.Database(connectionString, "System.Data.SqlClient");
             databaseHost.Database.OpenSharedConnection();
-
-            databaseHost.IConfigurationStore = new DBStore.SQLServerConfigurationStore(databaseHost.Database);
-            databaseHost.ISpeciesStore = new DBStore.SQLServerSpeciesStore(databaseHost.Database);
-            databaseHost.IImagePathsStore = new DBStore.SQLServerImagePathsStore(databaseHost.Database);
-            databaseHost.IImageStore = new DBStore.SQLServerImageStore(databaseHost.Database);
-
-            databaseHost.IConfigurationStore.CreateTable();
-            databaseHost.IConfigurationStore.Initialise();
-            databaseHost.ISpeciesStore.CreateTable();
-            databaseHost.IImagePathsStore.CreateTable();
-            databaseHost.IImageStore.CreateTable();
         }
 
         public static void OpenDatabase(IDatabaseHost databaseHost, string filepath)
         {
+            // Warning warning => get the user name and password from the user ... 
             string dbName = System.IO.Path.GetFileNameWithoutExtension(filepath);
             databaseHost.Database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = " + dbName, "System.Data.SqlClient");
-
             databaseHost.Database.OpenSharedConnection();
-            databaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(databaseHost.Database);
-            databaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(databaseHost.Database);
-            databaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(databaseHost.Database);
-            databaseHost.IImageStore = new DBStore.SQLiteImageStore(databaseHost.Database);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace WpfFungusApp.DBStore
 {
@@ -28,13 +24,12 @@ namespace WpfFungusApp.DBStore
             return stringBuilder.ToString();
         }
 
-        public static void NewDatabase(IDatabaseHost databaseHost, string host, int port, string userName, string password, string folder, string dbName)
+        public static void CreateDatabase(IDatabaseHost databaseHost, string host, int port, string userName, string password, string folder, string dbName)
         {
             // Connect to the master DB to create the requested database
 
             string connectionString = MakeConnectionString(host, port, userName, password, "postgres");
             databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
-
             databaseHost.Database.OpenSharedConnection();
             string filename = System.IO.Path.Combine(folder, dbName);
             databaseHost.Database.Execute(@"CREATE DATABASE " + dbName + @" WITH OWNER = postgres ENCODING = 'UTF8' CONNECTION LIMIT = -1;");
@@ -45,17 +40,6 @@ namespace WpfFungusApp.DBStore
             connectionString = MakeConnectionString(host, port, userName, password, dbName);
             databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
             databaseHost.Database.OpenSharedConnection();
-
-            databaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(databaseHost.Database);
-            databaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(databaseHost.Database);
-            databaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(databaseHost.Database);
-            databaseHost.IImageStore = new DBStore.PostgreSQLImageStore(databaseHost.Database);
-
-            databaseHost.IConfigurationStore.CreateTable();
-            databaseHost.IConfigurationStore.Initialise();
-            databaseHost.ISpeciesStore.CreateTable();
-            databaseHost.IImagePathsStore.CreateTable();
-            databaseHost.IImageStore.CreateTable();
         }
 
         public static void OpenDatabase(IDatabaseHost databaseHost, string host, int port, string userName, string password, string filepath)
@@ -64,6 +48,7 @@ namespace WpfFungusApp.DBStore
             string connectionString = MakeConnectionString(host, port, userName, password, dbName);
             databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
             databaseHost.Database.OpenSharedConnection();
+
             databaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(databaseHost.Database);
             databaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(databaseHost.Database);
             databaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(databaseHost.Database);

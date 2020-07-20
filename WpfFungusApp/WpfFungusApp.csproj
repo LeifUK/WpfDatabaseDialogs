@@ -143,6 +143,9 @@
     <Compile Include="View\NewDatabaseView.xaml.cs">
       <DependentUpon>NewDatabaseView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\OpenDatabaseView.xaml.cs">
+      <DependentUpon>OpenDatabaseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SpeciesListView.xaml.cs">
       <DependentUpon>SpeciesListView.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
     <Page Include="View\NewDatabaseView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OpenDatabaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SpeciesListView.xaml">
       <Generator>MSBuild:Compile</Generator>

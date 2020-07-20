@@ -12,11 +12,6 @@
         Title="New SQL Database" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
-            <Style x:Key="GroupBoxStyle" TargetType="GroupBox">
-                <Setter Property="BorderBrush" Value="#BBBBBB"/>
-                <Setter Property="BorderThickness" Value="1"/>
-            </Style>
-            <local:EnumComparisonConverter x:Key="EnumComparisonConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>

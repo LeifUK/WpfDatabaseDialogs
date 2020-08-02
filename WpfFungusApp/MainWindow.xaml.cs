@@ -36,9 +36,13 @@ namespace WpfFungusApp
 
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
-
-            View.OpenDatabaseView openDatabaseView = new View.OpenDatabaseView();
-            openDatabaseView.ShowDialog();
+            ViewModel.OpenDatabaseViewModel openDatabaseViewModelModel = new ViewModel.OpenDatabaseViewModel();
+            View.OpenDatabaseView newSqlConnectionView = new View.OpenDatabaseView();
+            newSqlConnectionView.DataContext = openDatabaseViewModelModel;
+            if (newSqlConnectionView.ShowDialog() != true)
+            {
+                return;
+            }
 
             System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog();
 
@@ -83,8 +87,8 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NewSqlConnectionViewModel newSqlConnectionViewModel = new ViewModel.NewSqlConnectionViewModel();
-            View.NewSqlConnectionView newSqlConnectionView = new View.NewSqlConnectionView();
+            ViewModel.NewDatabaseViewModel newSqlConnectionViewModel = new ViewModel.NewDatabaseViewModel();
+            View.NewDatabaseView newSqlConnectionView = new View.NewDatabaseView();
             newSqlConnectionView.DataContext = newSqlConnectionViewModel;
             if (newSqlConnectionView.ShowDialog() != true)
             {
@@ -99,10 +103,10 @@ namespace WpfFungusApp
                     SQLServerDatabase.CreateDatabase(
                         this,
                         newSqlConnectionViewModel.SqlServerInstances[newSqlConnectionViewModel.SelectedSqlServerInstance],
-                        newSqlConnectionViewModel.SqlServerUserName,
-                        newSqlConnectionViewModel.SqlServerPassword,
-                        newSqlConnectionViewModel.Folder, 
-                        newSqlConnectionViewModel.Filename);
+                        newSqlConnectionViewModel.SQLServer_UserName,
+                        newSqlConnectionViewModel.SQLServer_Password,
+                        newSqlConnectionViewModel.SQLServer_Folder, 
+                        newSqlConnectionViewModel.SQLServer_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
@@ -110,7 +114,7 @@ namespace WpfFungusApp
                 }
                 else if (databaseProvider == DatabaseProvider.PostGreSQL)
                 {
-                    PostgreSQLDatabase.CreateDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+                    PostgreSQLDatabase.CreateDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.PostgreSQL_DatabaseName);
 
                     IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
@@ -119,7 +123,7 @@ namespace WpfFungusApp
                 }
                 else if (databaseProvider == DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.CreateDatabase(this, newSqlConnectionViewModel.Folder, newSqlConnectionViewModel.Filename);
+                    SQLiteDatabase.CreateDatabase(this, newSqlConnectionViewModel.SQLite_Folder, newSqlConnectionViewModel.SQLite_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);

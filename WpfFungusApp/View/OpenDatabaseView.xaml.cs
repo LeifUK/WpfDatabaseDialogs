@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace WpfFungusApp.View
 {
@@ -24,14 +12,25 @@ namespace WpfFungusApp.View
             InitializeComponent();
         }
 
-        private void _buttonOK_Click(object sender, RoutedEventArgs e)
+        private void _buttonBrowseSQLiteDatabases_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        private void _buttonRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = DataContext as ViewModel.OpenDatabaseViewModel;
+            openDatabaseViewModel.Refresh();
+        }
+
+        private void _buttonOK_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
         private void _buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = false;
         }
     }
 }

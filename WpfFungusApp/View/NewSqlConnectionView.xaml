@@ -37,7 +37,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
@@ -55,11 +55,54 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <RadioButton Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5" Content="SQLite" 
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="0"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" x:Name="_radioButtonSQLite" Content="SQLite" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.SQLite}}"/>
+
+                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Database Location" Margin="20,0,10,10" Padding="10">
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLite}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </GroupBox.Style>
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto" MinWidth="300"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Folder"  HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Folder}" IsReadOnly="True"/>
+                            <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteFolders_Click"/>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Database Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_Filename}" />
+                        </Grid>
+                    </GroupBox>
+                </Grid>
 
                 <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Content="Microsoft SQL Server" 
                              GroupName="DatabaseProvider"
@@ -81,17 +124,21 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Instance" />
-                    <ComboBox Grid.Row="0" Grid.Column="2" x:Name="_comboBoxSqlServerInstances" ItemsSource="{Binding SqlServerInstances}" SelectedIndex="{Binding SelectedSqlServerInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                        <Label Grid.Row="0" Grid.Column="0" Content="Instance" />
+                        <Separator Width="10" Height="0"/>
+                        <ComboBox Grid.Row="0" Grid.Column="2" x:Name="_comboBoxSqlServerInstances" ItemsSource="{Binding SqlServerInstances}" SelectedIndex="{Binding SelectedSqlServerInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Separator Width="10" Height="0"/>
+                        <Button Content="Refresh" x:Name="_buttonRefresh" Style="{StaticResource Button80Style}" Click="_buttonRefresh_Click"/>
+                    </StackPanel>
+                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -115,11 +162,42 @@
                             <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="SQL Server Authentication" 
                                          GroupName="SqlServerAuthentication"/>
                             <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SqlServerUserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
                             <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SqlServerPassword}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200"/>
                         </Grid>
                     </GroupBox>
+
+                    <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Header="Database Location" Padding="10" >
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMicrosoftSQLServer}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </GroupBox.Style>
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto" MinWidth="300"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Folder"  HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_Folder}" IsReadOnly="True"/>
+                            <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseMicrosoftSQLServerFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseMicrosoftSQLServerFolders_Click"/>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Database Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Filename}" />
+                        </Grid>
+                    </GroupBox>                
                 </Grid>
 
                 <RadioButton x:Name="_radioButtonPostgreSQL" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" Content="PostgreSQL" 
@@ -144,6 +222,8 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -153,11 +233,11 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Host IP Address" />
-                    <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Host IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding PostgreSQL_UseIPv6}" Content="IPv6"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Port" />
-                    <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -187,6 +267,8 @@
                             <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
                         </Grid>
                     </GroupBox>
+                    <Label Grid.Row="6" Grid.Column="0" Content="Database Name" />
+                    <TextBox Grid.Row="6" Grid.Column="2" x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </Grid>
 
                 <RadioButton x:Name="_radioButtonMySQL" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="5" Content="MySQL" 
@@ -249,32 +331,6 @@
                         </Grid>
                     </GroupBox>
                 </Grid>
-            </Grid>
-        </GroupBox>
-
-        <GroupBox Grid.Row="3" Grid.Column="1" Header="Database Location" Style="{StaticResource GroupBoxStyle}">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto" MinWidth="300"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="10"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="1" Grid.Column="1" Content="Folder"  HorizontalAlignment="Right"/>
-                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding Folder}" IsReadOnly="True"/>
-                <Button Grid.Row="1" Grid.Column="5" Content="Browse" x:Name="_buttonBrowseFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseFolders_Click"/>
-                <Label Grid.Row="3" Grid.Column="1" Content="Database Name" HorizontalAlignment="Right"/>
-                <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding Filename}" />
             </Grid>
         </GroupBox>
         

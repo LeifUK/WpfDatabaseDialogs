@@ -22,7 +22,7 @@ namespace WpfFungusApp.DBStore
 
             species.Images = new List<DBObject.Image>();
 
-            var iterator = iDatabaseHost.Database.Query<DBObject.Image>("SELECT * FROM tblImages WHERE fungus_id=@id ORDER BY display_order", new { species.id });
+            var iterator = iDatabaseHost.Database.Query<DBObject.Image>("SELECT * FROM \"tblImages\" WHERE fungus_id=@id ORDER BY display_order", new { species.id });
             foreach (var image in iterator)
             {
                 if (!string.IsNullOrEmpty(image.filename))

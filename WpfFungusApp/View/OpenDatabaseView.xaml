@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:WpfFungusApp.View"
         xmlns:DBStore="clr-namespace:WpfFungusApp.DBStore"
         mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         Background="#EEEEEE"
-        SizeToContent="WidthAndHeight"
-        Title="Open Database" Height="450" Width="800">
+        Title="Open SQL Database" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,6 +21,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="10"/>
@@ -30,36 +32,317 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Database Provider" Style="{StaticResource GroupBoxStyle}" Padding="10" Margin="0,10,0,0">
+
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Database Provider and Connection" Padding="0,10,0,0" Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <RadioButton Grid.Row="0" Grid.Column="0" Content="SQLite" HorizontalAlignment="Left"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="0"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" x:Name="_radioButtonSQLite" Content="SQLite" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.SQLite}}"/>
 
-                <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="0" Content="Microsoft SQL Server"  HorizontalAlignment="Left"
+                    <!--<GroupBox Grid.Row="2" Grid.Column="0" Header="Database File" Margin="20,0,10,10" Padding="10">
+                        <GroupBox.Style>
+                            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLite}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </GroupBox.Style>-->
+                    <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,10,10" >
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLite}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto" MinWidth="300"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Database File" Style="{StaticResource LabelStyle}"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Database}" IsReadOnly="True"/>
+                            <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteDatabases" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteDatabases_Click"/>
+                        </Grid>
+                    <!--</GroupBox>-->
+                </Grid>
+
+                <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Content="Microsoft SQL Server" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.MicrosoftSqlServer}}" />
+                
+                <Grid Grid.Row="4" Grid.Column="1" Margin="20,0,0,10" HorizontalAlignment="Left">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMicrosoftSQLServer}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Local Server"/>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Orientation="Horizontal">
+                            <ComboBox x:Name="_comboBoxSqlServerInstances" ItemsSource="{Binding SqlServerInstances}" SelectedIndex="{Binding SelectedSqlServerInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Separator Width="10" Height="0"/>
+                            <Button Content="Refresh" x:Name="_buttonRefresh" Style="{StaticResource Button80Style}" Click="_buttonRefresh_Click"/>
+                        </StackPanel>
 
-                <RadioButton x:Name="_radioButtonPostgreSQLr" Grid.Row="4" Grid.Column="0" Content="PostgreSQL"  HorizontalAlignment="Left"
+                        <RadioButton Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Content="Remote Server"/>
+                        <Label Grid.Row="6" Grid.Column="1" Content="Host IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="6" Grid.Column="3" x:Name="_textBoxSqlServerHost"  Text="{Binding SqlServer_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="6" Grid.Column="5" IsChecked="{Binding SqlServer_UseIPv6}" Content="IPv6"/>
+                        <Label Grid.Row="8" Grid.Column="1" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="8" Grid.Column="3" x:Name="_textBoxSqlServerPort" Text="{Binding SqlServer_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    </Grid>
+                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                                         GroupName="SqlServerAuthentication"
+                                         IsChecked="{Binding SqlServerWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="SQL Server Authentication" 
+                                         GroupName="SqlServerAuthentication"/>
+                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Database Name" />
+                        <Separator Width="10" Height="0"/>
+                        <TextBox x:Name="_textBoxSQLServerDatabaseName" Text="{Binding SQLServer_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+                
+                <RadioButton x:Name="_radioButtonPostgreSQL" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" Content="PostgreSQL" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
-                             ConverterParameter={x:Static DBStore:DatabaseProvider.PostGreSQL}}" />
+                             ConverterParameter={x:Static DBStore:DatabaseProvider.PostGreSQL}}"/>
+
+                <Grid Grid.Row="8" Grid.Column="1" Margin="20,0,0,10" >
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonPostgreSQL}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Host IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding PostgreSQL_UseIPv6}" Content="IPv6"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                                         GroupName="PostgreSQLAuthentication"
+                                         IsChecked="{Binding PostgreSQLWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="PostgreSQL Authentication" 
+                                         GroupName="PostgreSQLAuthentication"/>
+                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                        </Grid>
+                    </GroupBox>
+                    <Label Grid.Row="6" Grid.Column="0" Content="Database Name" />
+                    <TextBox Grid.Row="6" Grid.Column="2" x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+
+                <RadioButton x:Name="_radioButtonMySQL" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="5" Content="MySQL" 
+                             GroupName="DatabaseProvider"
+                             IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
+                             Converter={StaticResource EnumComparisonConverter},
+                             ConverterParameter={x:Static DBStore:DatabaseProvider.MySQL}}" />
+
+                <Grid Grid.Row="12" Grid.Column="1" Margin="20,0,0,10" HorizontalAlignment="Left">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMySQL}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Instance" />
+                    <ComboBox Grid.Row="0" Grid.Column="2" x:Name="_comboBoxMySQLInstances" ItemsSource="{Binding MySQLInstances}" SelectedIndex="{Binding SelectedMySQLInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                                         GroupName="MySQLAuthentication"
+                                         IsChecked="{Binding SqlServerWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="SQL Server Authentication" 
+                                         GroupName="MySQLAuthentication"/>
+                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding MySQLUserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding MySQLPassword}" HorizontalAlignment="Left" MinWidth="200"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
             <Button x:Name="_buttonOK" Content="OK" Style="{StaticResource Button80Style}" Click="_buttonOK_Click"/>
             <Separator Width="20" Height="0"/>
             <Button x:Name="_buttonCancel" Content="Cancel" Style="{StaticResource Button80Style}" Click="_buttonCancel_Click"/>

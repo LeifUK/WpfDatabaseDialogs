@@ -132,10 +132,10 @@
     <Compile Include="Export\PageWriterPhotoIndex.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\OpenDatabaseViewModel.cs" />
     <Compile Include="ViewModel\NewDatabaseViewModel.cs" />
     <Compile Include="ViewModel\SpeciesListViewModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
-    <Compile Include="ViewModel\NewSqlConnectionViewModel.cs" />
     <Compile Include="View\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
@@ -151,9 +151,6 @@
     </Compile>
     <Compile Include="View\SpeciesView.xaml.cs">
       <DependentUpon>SpeciesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\NewSqlConnectionView.xaml.cs">
-      <DependentUpon>NewSqlConnectionView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -180,8 +177,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\NewDatabaseView.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="View\OpenDatabaseView.xaml">
       <SubType>Designer</SubType>
@@ -194,10 +191,6 @@
     <Page Include="View\SpeciesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\NewSqlConnectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

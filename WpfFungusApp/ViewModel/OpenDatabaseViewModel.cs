@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 namespace WpfFungusApp.ViewModel
 {
-    class NewSqlConnectionViewModel : BaseViewModel
+    class OpenDatabaseViewModel : BaseViewModel
     {
-        public NewSqlConnectionViewModel()
+        public OpenDatabaseViewModel()
         {
             SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
@@ -240,7 +236,7 @@ namespace WpfFungusApp.ViewModel
             }
             set
             {
-              _postgreSQL_Port = value;
+                _postgreSQL_Port = value;
                 NotifyPropertyChanged("PostgreSQL_Port");
             }
         }

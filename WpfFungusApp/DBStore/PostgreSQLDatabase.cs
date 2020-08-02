@@ -24,14 +24,13 @@ namespace WpfFungusApp.DBStore
             return stringBuilder.ToString();
         }
 
-        public static void CreateDatabase(IDatabaseHost databaseHost, string host, int port, string userName, string password, string folder, string dbName)
+        public static void CreateDatabase(IDatabaseHost databaseHost, string host, int port, string userName, string password, string dbName)
         {
             // Connect to the master DB to create the requested database
 
             string connectionString = MakeConnectionString(host, port, userName, password, "postgres");
             databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
             databaseHost.Database.OpenSharedConnection();
-            string filename = System.IO.Path.Combine(folder, dbName);
             databaseHost.Database.Execute(@"CREATE DATABASE " + dbName + @" WITH OWNER = postgres ENCODING = 'UTF8' CONNECTION LIMIT = -1;");
             databaseHost.Database.CloseSharedConnection();
 

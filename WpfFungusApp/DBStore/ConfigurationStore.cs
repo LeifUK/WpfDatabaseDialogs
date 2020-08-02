@@ -15,7 +15,7 @@ namespace WpfFungusApp.DBStore
 
         private void CreateIfNotExists(DBObject.Configuration configuration)
         {
-            if (_database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='" + configuration.Name + "'").Count() == 0)
+            if (_database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='" + configuration.name + "'").Count() == 0)
             {
                 _database.Insert("tblConfiguration", "name", configuration);
             }
@@ -27,16 +27,16 @@ namespace WpfFungusApp.DBStore
 
             _database.BeginTransaction();
 
-            configuration.Name = "copyright";
-            configuration.Value = "Joe Bloggs";
+            configuration.name = "copyright";
+            configuration.value = "Joe Bloggs";
             CreateIfNotExists(configuration);
 
-            configuration.Name = "export folder";
-            configuration.Value = "c:\\";
+            configuration.name = "export folder";
+            configuration.value = "c:\\";
             CreateIfNotExists(configuration);
 
-            configuration.Name = "overwrite";
-            configuration.Value = "false";
+            configuration.name = "overwrite";
+            configuration.value = "false";
             CreateIfNotExists(configuration);
 
             _database.CompleteTransaction();
@@ -47,11 +47,11 @@ namespace WpfFungusApp.DBStore
             get
             {
                 DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='copyright'").First();
-                return configuration != null ? configuration.Value : "";
+                return configuration != null ? configuration.value : "";
             }
             set
             {
-                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { Name = "copyright", Value = value });
+                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { name = "copyright", value = value });
             }
         }
 
@@ -60,11 +60,11 @@ namespace WpfFungusApp.DBStore
             get
             {
                 DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='export folder'").First();
-                return configuration != null ? configuration.Value : "";
+                return configuration != null ? configuration.value : "";
             }
             set
             {
-                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { Name = "export folder", Value = value });
+                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { name = "export folder", value = value });
             }
         }
 
@@ -73,11 +73,11 @@ namespace WpfFungusApp.DBStore
             get
             {
                 DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='overwrite'").First();
-                return configuration != null ? configuration.Value == "1" : false;
+                return configuration != null ? configuration.value == "1" : false;
             }
             set
             {
-                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { Name = "overwrite", Value = (value ? "1" : "0") });
+                _database.Update("tblConfiguration", "name", new DBObject.Configuration() { name = "overwrite", value = (value ? "1" : "0") });
             }
         }
     }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WpfFungusApp.View
 {
     /// <summary>
-    /// Interaction logic for NewDatabaseView.xaml
+    /// Interaction logic for SqlConnectionDialog.xaml
     /// </summary>
     public partial class NewDatabaseView : Window
     {
@@ -15,7 +12,13 @@ namespace WpfFungusApp.View
             InitializeComponent();
         }
 
-        private void _buttonBrowse_Click(object sender, RoutedEventArgs e)
+        private void _buttonRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NewDatabaseViewModel sqlConnectionViewModel = DataContext as ViewModel.NewDatabaseViewModel;
+            sqlConnectionViewModel.Refresh();
+        }
+
+        private void _buttonBrowseMicrosoftSQLServerFolders_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
             if (dialog == null)
@@ -23,10 +26,27 @@ namespace WpfFungusApp.View
                 return;
             }
 
+            ViewModel.NewDatabaseViewModel sqlConnectionViewModel = DataContext as ViewModel.NewDatabaseViewModel;
+            dialog.SelectedPath = sqlConnectionViewModel.SQLServer_Folder;
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
-                newDatabaseViewModel.Folder = dialog.SelectedPath;
+                sqlConnectionViewModel.SQLServer_Folder = dialog.SelectedPath;
+            }
+        }
+
+        private void _buttonBrowseSQLiteFolders_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (dialog == null)
+            {
+                return;
+            }
+
+            ViewModel.NewDatabaseViewModel sqlConnectionViewModel = DataContext as ViewModel.NewDatabaseViewModel;
+            dialog.SelectedPath = sqlConnectionViewModel.SQLite_Folder;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                sqlConnectionViewModel.SQLite_Folder = dialog.SelectedPath;
             }
         }
 

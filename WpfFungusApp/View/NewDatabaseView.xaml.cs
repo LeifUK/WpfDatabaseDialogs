@@ -26,11 +26,11 @@ namespace WpfFungusApp.View
                 return;
             }
 
-            ViewModel.NewDatabaseViewModel sqlConnectionViewModel = DataContext as ViewModel.NewDatabaseViewModel;
-            dialog.SelectedPath = sqlConnectionViewModel.SQLServer_Folder;
+            ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
+            dialog.SelectedPath = newDatabaseViewModel.SQLServer_Folder;
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                sqlConnectionViewModel.SQLServer_Folder = dialog.SelectedPath;
+                newDatabaseViewModel.SQLServer_Folder = dialog.SelectedPath;
             }
         }
 

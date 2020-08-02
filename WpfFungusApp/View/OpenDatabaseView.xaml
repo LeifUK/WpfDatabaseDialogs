@@ -72,41 +72,30 @@
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.SQLite}}"/>
 
-                    <!--<GroupBox Grid.Row="2" Grid.Column="0" Header="Database File" Margin="20,0,10,10" Padding="10">
-                        <GroupBox.Style>
-                            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
+                    <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,10,10" >
+                        <Grid.Style>
+                            <Style TargetType="Grid">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLite}" Value="False">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </GroupBox.Style>-->
-                    <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,10,10" >
-                            <Grid.Style>
-                                <Style TargetType="Grid">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLite}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto" MinWidth="300"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Content="Database File" Style="{StaticResource LabelStyle}"/>
-                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Database}" IsReadOnly="True"/>
-                            <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteDatabases" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteDatabases_Click"/>
-                        </Grid>
-                    <!--</GroupBox>-->
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto" MinWidth="300"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Database File" Style="{StaticResource LabelStyle}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Filename}" IsReadOnly="True"/>
+                        <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteDatabases" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteDatabases_Click"/>
+                    </Grid>
                 </Grid>
 
                 <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Content="Microsoft SQL Server" 

@@ -14,7 +14,18 @@ namespace WpfFungusApp.View
 
         private void _buttonBrowseSQLiteDatabases_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            if (openFileDialog == null)
+            {
+                return;
+            }
 
+            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = DataContext as ViewModel.OpenDatabaseViewModel;
+            openFileDialog.FileName = openDatabaseViewModel.SQLite_Filename;
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                openDatabaseViewModel.SQLite_Filename = openFileDialog.FileName;
+            }
         }
 
         private void _buttonRefresh_Click(object sender, RoutedEventArgs e)

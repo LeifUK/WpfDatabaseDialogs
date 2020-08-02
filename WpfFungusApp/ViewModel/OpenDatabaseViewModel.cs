@@ -62,20 +62,6 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private string _sqlite_Folder;
-        public string SQLite_Folder
-        {
-            get
-            {
-                return _sqlite_Folder;
-            }
-            set
-            {
-                _sqlite_Folder = value;
-                NotifyPropertyChanged("SQLite_Folder");
-            }
-        }
-
         private string _sqlite_Filename;
         public string SQLite_Filename
         {

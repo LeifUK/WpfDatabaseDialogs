@@ -45,10 +45,9 @@ namespace WpfFungusApp.DBStore
             databaseHost.Database.OpenSharedConnection();
         }
 
-        public static void OpenDatabase(IDatabaseHost databaseHost, string filepath)
+        public static void OpenDatabase(IDatabaseHost databaseHost, string dbName)
         {
             // Warning warning => get the user name and password from the user ... 
-            string dbName = System.IO.Path.GetFileNameWithoutExtension(filepath);
             databaseHost.Database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = " + dbName, "System.Data.SqlClient");
             databaseHost.Database.OpenSharedConnection();
         }

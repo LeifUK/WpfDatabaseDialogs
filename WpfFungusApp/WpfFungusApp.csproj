@@ -97,7 +97,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DBStore\DatabaseHelpers.cs" />
     <Compile Include="DBStore\ConfigurationStore.cs" />
     <Compile Include="DBStore\DatabaseProvider.cs" />
     <Compile Include="DBStore\IConfigurationStore.cs" />

@@ -24,6 +24,15 @@ namespace WpfFungusApp.View
             //}
         }
 
+
+        //private void LoadImages(DBStore.IDatabaseHost iDatabaseHost, DBObject.Species species)
+        //{
+        //    Dictionary<long, string> paths = DBStore.DatabaseHelpers.LoadImagePaths(iDatabaseHost.IImagePathsStore);
+
+        //    species.Images = iDatabaseHost.IImageStore.LoadImages(species.id, paths);
+        //}
+
+
         private void _buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             if (_datagrid.SelectedIndex < 0)
@@ -36,8 +45,8 @@ namespace WpfFungusApp.View
             DBObject.Species species = speciesListViewModel.SpeciesCollection[_datagrid.SelectedIndex] as DBObject.Species;
             // Edit a clone of the species
             DBObject.Species editedSpecies = species.Clone();
-            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, species);
-            DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, editedSpecies);
+            speciesListViewModel.LoadImages(species);
+            speciesListViewModel.LoadImages(editedSpecies);
 
             View.SpeciesView speciesView = new SpeciesView();
             ViewModel.SpeciesViewModel speciesViewModel = new ViewModel.SpeciesViewModel(speciesListViewModel.IDatabaseHost.IConfigurationStore, editedSpecies);
@@ -115,7 +124,7 @@ namespace WpfFungusApp.View
             List<DBObject.Species> listSpecies = speciesListViewModel.SpeciesCollection.Select(n => n as DBObject.Species).ToList();
             foreach (DBObject.Species species in listSpecies)
             {
-                DBStore.DatabaseHelpers.LoadImages(speciesListViewModel.IDatabaseHost, species);
+                speciesListViewModel.LoadImages(species);
             }
 
             string filename = System.IO.Path.Combine(exportFolder, "Fungi.html");

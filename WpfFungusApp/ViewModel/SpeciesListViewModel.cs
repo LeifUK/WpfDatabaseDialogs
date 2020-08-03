@@ -56,10 +56,37 @@ namespace WpfFungusApp.ViewModel
             return true;
         }
 
+        internal void LoadImages(DBObject.Species species)
+        {
+            Dictionary<long, string> paths = IDatabaseHost.IImagePathsStore.LoadImagePaths();
+
+            species.Images = IDatabaseHost.IImageStore.LoadImages(species.id, paths);
+        }
+
+        private static bool ParseImagePath(IImagePathsStore iImagePathsStore, List<DBObject.Image> images)
+        {
+            Dictionary<long, string> paths = iImagePathsStore.LoadImagePaths();
+
+            foreach (var image in images)
+            {
+                foreach (KeyValuePair<long, string> keyValuePair in paths)
+                {
+                    if (image.Path.Contains(keyValuePair.Value))
+                    {
+                        image.image_database_id = keyValuePair.Key;
+                        image.filename = image.Path.Substring(keyValuePair.Value.Length);
+                        break;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private void WriteImages(DBObject.Species species)
         {
             byte displayOrder = 0;
-            DatabaseHelpers.ParseImagePath(IDatabaseHost.IImagePathsStore, species.Images);
+            ParseImagePath(IDatabaseHost.IImagePathsStore, species.Images);
 
             foreach (DBObject.Image image in species.Images)
             {
@@ -115,7 +142,7 @@ namespace WpfFungusApp.ViewModel
 
                 IDatabaseHost.Database.CompleteTransaction();
             }
-            catch
+            catch (Exception exception)
             {
                 IDatabaseHost.Database.AbortTransaction();
             }
@@ -130,7 +157,7 @@ namespace WpfFungusApp.ViewModel
         public void DeleteSpecies(int index)
         {
             DBObject.Species species = SelectedSpecies;
-            DatabaseHelpers.LoadImages(IDatabaseHost, species);
+            LoadImages(species);
 
             IDatabaseHost.Database.BeginTransaction();
             try

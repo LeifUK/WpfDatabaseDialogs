@@ -7,15 +7,18 @@ namespace WpfFungusApp.DBStore
         public SpeciesStore(PetaPoco.Database database)
         {
             _database = database;
+            UseTableNameFix = false;
         }
 
+        // Postgres converts the table name in queries to lower case unless enclosed in quotes
+        public bool UseTableNameFix { get; protected set; }
         protected readonly PetaPoco.Database _database;
 
         public abstract void CreateTable();
 
         public void Insert(DBObject.Species species)
         {
-            species.id = (long)(int)_database.Insert("tblFungi", "id", species);
+            species.id = System.Convert.ToInt64(_database.Insert("tblFungi", "id", species));
         }
 
         public void Update(DBObject.Species species)
@@ -32,7 +35,11 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                return _database.Query<DBObject.Species>("SELECT * FROM \"tblFungi\" ORDER BY species");
+                return _database.Query<DBObject.Species>(
+                    UseTableNameFix ?
+                    "SELECT * FROM \"tblFungi\" ORDER BY species" :
+                    "SELECT * FROM tblFungi ORDER BY species"); 
+
             }
         }
     }

@@ -9,5 +9,6 @@ namespace WpfFungusApp.DBStore
         void Insert(DBObject.ImagePath imagePath);
         void Delete(DBObject.ImagePath imagePath);
         IEnumerable<DBObject.ImagePath> Enumerator { get; }
+        Dictionary<long, string> LoadImagePaths();
     }
 }

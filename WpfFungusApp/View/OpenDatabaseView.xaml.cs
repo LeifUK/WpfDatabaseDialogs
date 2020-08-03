@@ -22,6 +22,7 @@ namespace WpfFungusApp.View
 
             ViewModel.OpenDatabaseViewModel openDatabaseViewModel = DataContext as ViewModel.OpenDatabaseViewModel;
             openFileDialog.FileName = openDatabaseViewModel.SQLite_Filename;
+            openFileDialog.Filter = "SQLite Database (*.sqlite)|*.sqlite|Microsoft SQL Server Database(*.mdf) | *.mdf";
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 openDatabaseViewModel.SQLite_Filename = openFileDialog.FileName;

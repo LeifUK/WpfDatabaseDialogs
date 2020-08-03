@@ -10,10 +10,14 @@ namespace WpfFungusApp.ViewModel
             SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
             SqlServerInstances = new ObservableCollection<string>();
+            SQLServer_UseWindowsAuthentication = true;
 
             PostgreSQL_Host = "127.0.0.1";
             PostgreSQL_UseIPv6 = false;
             PostgreSQL_Port = 5432;
+            PostgreSQL_UseWindowsAuthentication = true;
+
+            MySQL_UseWindowsAuthentication = true;
         }
 
         public void Refresh()
@@ -101,6 +105,20 @@ namespace WpfFungusApp.ViewModel
             {
                 _selectedSqlServerInstance = value;
                 NotifyPropertyChanged("SelectedSqlServerInstance");
+            }
+        }
+
+        private bool _sqlServer_UseWindowsAuthentication;
+        public bool SQLServer_UseWindowsAuthentication
+        {
+            get
+            {
+                return _sqlServer_UseWindowsAuthentication;
+            }
+            set
+            {
+                _sqlServer_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("SQLServer_UseWindowsAuthentication");
             }
         }
 
@@ -241,6 +259,20 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        private bool _postgreSQL_UseWindowsAuthentication;
+        public bool PostgreSQL_UseWindowsAuthentication
+        {
+            get
+            {
+                return _postgreSQL_UseWindowsAuthentication;
+            }
+            set
+            {
+                _postgreSQL_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("PostgreSQL_UseWindowsAuthentication");
+            }
+        }
+
         private string _postgreSQL_UserName;
         public string PostgreSQL_UserName
         {
@@ -280,6 +312,48 @@ namespace WpfFungusApp.ViewModel
             {
                 _postgreSQL_DatabaseName = value;
                 NotifyPropertyChanged("PostgreSQL_DatabaseName");
+            }
+        }
+
+        private bool _mySQL_UseWindowsAuthentication;
+        public bool MySQL_UseWindowsAuthentication
+        {
+            get
+            {
+                return _mySQL_UseWindowsAuthentication;
+            }
+            set
+            {
+                _mySQL_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("MySQL_UseWindowsAuthentication");
+            }
+        }
+
+        private string _mySQL_UserName;
+        public string MySQL_UserName
+        {
+            get
+            {
+                return _mySQL_UserName;
+            }
+            set
+            {
+                _mySQL_UserName = value;
+                NotifyPropertyChanged("MySQL_UserName");
+            }
+        }
+
+        private string _mySQL_Password;
+        public string MySQL_Password
+        {
+            get
+            {
+                return _mySQL_Password;
+            }
+            set
+            {
+                _mySQL_Password = value;
+                NotifyPropertyChanged("MySQL_Password");
             }
         }
     }

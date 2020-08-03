@@ -10,10 +10,16 @@ namespace WpfFungusApp.ViewModel
             SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
             SqlServerInstances = new ObservableCollection<string>();
+            SQLServer_UseLocalServer = true;
+            SQLServer_UseIPv6 = false;
+            SQLServer_UseWindowsAuthentication = true;
 
             PostgreSQL_Host = "127.0.0.1";
             PostgreSQL_UseIPv6 = false;
             PostgreSQL_Port = 5432;
+            PostgreSQL_UseWindowsAuthentication = true;
+
+            MySQL_UseWindowsAuthentication = true;
         }
 
         public void Refresh()
@@ -76,6 +82,20 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        private bool _sqlServer_LocalServer;
+        public bool SQLServer_UseLocalServer
+        {
+            get
+            {
+                return _sqlServer_LocalServer;
+            }
+            set
+            {
+                _sqlServer_LocalServer = value;
+                NotifyPropertyChanged("SQLServer_UseLocalServer");
+            }
+        }
+
         private int _selectedSqlServerInstance;
         public int SelectedSqlServerInstance
         {
@@ -90,6 +110,101 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        private string _sqlServer_IPAddress;
+        public string SQLServer_IPAddress
+        {
+            get
+            {
+                return _sqlServer_IPAddress;
+            }
+            set
+            {
+                try
+                {
+                    System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse(value);
+                    if (SQLServer_UseIPv6)
+                    {
+                        byte[] bytes = ipAddress.GetAddressBytes();
+                        bool first = true;
+                        string text = "";
+                        for (int index = 0; index < 16; index += 2)
+                        {
+                            if (!first)
+                            {
+                                text += ":";
+                            }
+                            short shortVal = (short)(bytes[index + 1] + (bytes[index] << 8));
+                            first = false;
+                            text += shortVal.ToString("X");
+                        }
+                        _sqlServer_IPAddress = text;
+                    }
+                    else
+                    {
+                        _sqlServer_IPAddress = ipAddress.ToString();
+                    }
+                }
+                catch
+                {
+
+                }
+                NotifyPropertyChanged("SQLServer_IPAddress");
+            }
+        }
+
+        private bool _sqlServer_UseIPv6;
+        public bool SQLServer_UseIPv6
+        {
+            get
+            {
+                return _sqlServer_UseIPv6;
+            }
+            set
+            {
+                if (_sqlServer_UseIPv6 != value)
+                {
+                    _sqlServer_UseIPv6 = value;
+                    if (value)
+                    {
+                        SQLServer_IPAddress = "0:0:0:0:0:0:0:1";
+                    }
+                    else
+                    {
+                        SQLServer_IPAddress = "127.0.0.1";
+                    }
+                }
+                NotifyPropertyChanged("SQLServer_UseIPv6");
+            }
+        }
+
+        private ushort _sqlServer_Port;
+        public ushort SQLServer_Port
+        {
+            get
+            {
+                return _sqlServer_Port;
+            }
+            set
+            {
+                _sqlServer_Port = value;
+                NotifyPropertyChanged("SQLServer_Port");
+            }
+        }
+
+        private bool _sqlServer_UseWindowsAuthentication;
+        public bool SQLServer_UseWindowsAuthentication
+        {
+            get
+            {
+                return _sqlServer_UseWindowsAuthentication;
+            }
+            set
+            {
+                _sqlServer_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("SQLServer_UseWindowsAuthentication");
+            }
+        }
+        
         private string _sqlServer_UserName;
         public string SQLServer_UserName
         {
@@ -132,17 +247,17 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private string _sqlServer_Filename;
-        public string SQLServer_Filename
+        private string _sqlServer_DatabaseName;
+        public string SQLServer_DatabaseName
         {
             get
             {
-                return _sqlServer_Filename;
+                return _sqlServer_DatabaseName;
             }
             set
             {
-                _sqlServer_Filename = value;
-                NotifyPropertyChanged("SQLServer_Filename");
+                _sqlServer_DatabaseName = value;
+                NotifyPropertyChanged("SQLServer_DatabaseName");
             }
         }
 
@@ -227,6 +342,20 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        private bool _postgreSQL_UseWindowsAuthentication;
+        public bool PostgreSQL_UseWindowsAuthentication
+        {
+            get
+            {
+                return _postgreSQL_UseWindowsAuthentication;
+            }
+            set
+            {
+                _postgreSQL_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("PostgreSQL_UseWindowsAuthentication");
+            }
+        }
+
         private string _postgreSQL_UserName;
         public string PostgreSQL_UserName
         {
@@ -266,6 +395,48 @@ namespace WpfFungusApp.ViewModel
             {
                 _postgreSQL_DatabaseName = value;
                 NotifyPropertyChanged("PostgreSQL_DatabaseName");
+            }
+        }
+
+        private bool _mySQL_UseWindowsAuthentication;
+        public bool MySQL_UseWindowsAuthentication
+        {
+            get
+            {
+                return _mySQL_UseWindowsAuthentication;
+            }
+            set
+            {
+                _mySQL_UseWindowsAuthentication = value;
+                NotifyPropertyChanged("MySQL_UseWindowsAuthentication");
+            }
+        }
+
+        private string _mySQL_UserName;
+        public string MySQL_UserName
+        {
+            get
+            {
+                return _mySQL_UserName;
+            }
+            set
+            {
+                _mySQL_UserName = value;
+                NotifyPropertyChanged("MySQL_UserName");
+            }
+        }
+
+        private string _mySQL_Password;
+        public string MySQL_Password
+        {
+            get
+            {
+                return _mySQL_Password;
+            }
+            set
+            {
+                _mySQL_Password = value;
+                NotifyPropertyChanged("MySQL_Password");
             }
         }
     }

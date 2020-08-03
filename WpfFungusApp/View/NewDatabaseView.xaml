@@ -72,7 +72,7 @@
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.SQLite}}"/>
 
-                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Database Location" Margin="20,0,10,10" Padding="10">
+                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Database" Margin="20,0,10,10" Padding="10">
                         <GroupBox.Style>
                             <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
                                 <Style.Triggers>
@@ -95,10 +95,10 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Content="Folder"  HorizontalAlignment="Right"/>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Location"  HorizontalAlignment="Right"/>
                             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Folder}" IsReadOnly="True"/>
                             <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteFolders_Click"/>
-                            <Label Grid.Row="2" Grid.Column="0" Content="Database Name" HorizontalAlignment="Right"/>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Name" HorizontalAlignment="Right"/>
                             <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_Filename}" />
                         </Grid>
                     </GroupBox>
@@ -108,7 +108,7 @@
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
-                             ConverterParameter={x:Static DBStore:DatabaseProvider.MicrosoftSqlServer}}" />
+                             ConverterParameter={x:Static DBStore:DatabaseProvider.MicrosoftSQLServer}}" />
 
                 <Grid Grid.Row="4" Grid.Column="1" Margin="20,0,0,10" HorizontalAlignment="Left">
                     <Grid.Style>
@@ -159,38 +159,45 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="10"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                            <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
+                                         x:Name="_radioButtonSQLServerWindowsAuthentication"
                                          GroupName="SqlServerAuthentication"
-                                         IsChecked="{Binding SqlServerWindowsAuthentication}"/>
-                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="SQL Server Authentication" 
+                                         IsChecked="{Binding SQLServer_UseWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Content="SQL Server Authentication" 
                                          GroupName="SqlServerAuthentication"/>
-                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
-                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLServerWindowsAuthentication}" Value="True">
+                                                <Setter Property="IsEnabled" Value="false" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                            </Grid>                            
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Header="Database Location" Padding="10" >
-                        <GroupBox.Style>
-                            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMicrosoftSQLServer}" Value="False">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </GroupBox.Style>
+                    <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Header="Database" Padding="10" Style="{StaticResource GroupBoxStyle}">
                         <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -204,10 +211,10 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Content="Folder"  HorizontalAlignment="Right"/>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Location"  HorizontalAlignment="Right"/>
                             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_Folder}" IsReadOnly="True"/>
                             <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseMicrosoftSQLServerFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseMicrosoftSQLServerFolders_Click"/>
-                            <Label Grid.Row="2" Grid.Column="0" Content="Database Name" HorizontalAlignment="Right"/>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Name" HorizontalAlignment="Right"/>
                             <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Filename}" />
                         </Grid>
                     </GroupBox>
@@ -270,14 +277,37 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                                         x:Name="_radioButtonPostgreSQLWindowsAuthentication"
                                          GroupName="PostgreSQLAuthentication"
-                                         IsChecked="{Binding PostgreSQLWindowsAuthentication}"/>
+                                         IsChecked="{Binding PostgreSQL_UseWindowsAuthentication}"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="PostgreSQL Authentication" 
                                          GroupName="PostgreSQLAuthentication"/>
-                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
-                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonPostgreSQLWindowsAuthentication}" Value="True">
+                                                <Setter Property="IsEnabled" Value="false" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                            </Grid>
                         </Grid>
                     </GroupBox>
                     <Label Grid.Row="6" Grid.Column="0" Content="Database Name" />
@@ -333,14 +363,37 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
+                                         x:Name="_radioButtonMySQLWindowsAuthentication"
                                          GroupName="MySQLAuthentication"
-                                         IsChecked="{Binding SqlServerWindowsAuthentication}"/>
-                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="SQL Server Authentication" 
+                                         IsChecked="{Binding MySQL_UseWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="MySQL Authentication" 
                                          GroupName="MySQLAuthentication"/>
-                            <Label Grid.Row="4" Grid.Column="2" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding MySQLUserName}" HorizontalAlignment="Left" MinWidth="200"/>
-                            <Label Grid.Row="6" Grid.Column="2" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding MySQLPassword}" HorizontalAlignment="Left" MinWidth="200"/>
+
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMySQLWindowsAuthentication}" Value="True">
+                                                <Setter Property="IsEnabled" Value="false" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                            </Grid>
                         </Grid>
                     </GroupBox>
                 </Grid>

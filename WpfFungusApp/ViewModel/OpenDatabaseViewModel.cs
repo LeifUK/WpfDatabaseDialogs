@@ -11,7 +11,9 @@ namespace WpfFungusApp.ViewModel
 
             SqlServerInstances = new ObservableCollection<string>();
             SQLServer_UseLocalServer = true;
+            SQLServer_IPAddress = "127.0.0.1";
             SQLServer_UseIPv6 = false;
+            SQLServer_Port = 1433;
             SQLServer_UseWindowsAuthentication = true;
 
             PostgreSQL_Host = "127.0.0.1";

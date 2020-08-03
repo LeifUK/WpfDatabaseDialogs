@@ -118,10 +118,15 @@
     <Compile Include="DBStore\SQLiteImageStore.cs" />
     <Compile Include="DBStore\SQLiteSpeciesStore.cs" />
     <Compile Include="DBStore\SQLiteStore.cs" />
+    <Compile Include="DBStore\MySQLConfigurationStore.cs" />
     <Compile Include="DBStore\SQLServerConfigurationStore.cs" />
+    <Compile Include="DBStore\MySQLDatabase.cs" />
     <Compile Include="DBStore\SQLServerDatabase.cs" />
+    <Compile Include="DBStore\MySQLImagePathsStore.cs" />
     <Compile Include="DBStore\SQLServerImagePathsStore.cs" />
+    <Compile Include="DBStore\MySQLImageStore.cs" />
     <Compile Include="DBStore\SQLServerImageStore.cs" />
+    <Compile Include="DBStore\MySQLSpeciesStore.cs" />
     <Compile Include="DBStore\SQLServerSpeciesStore.cs" />
     <Compile Include="Export\FungalGenusGroups.cs" />
     <Compile Include="Export\PageWriterBase.cs" />

@@ -56,11 +56,32 @@ namespace WpfFungusApp
                 }
                 else if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.MicrosoftSQLServer)
                 {
-                    SQLServerDatabase.OpenDatabase(this, openDatabaseViewModel.SQLServer_DatabaseName);
+                    string server = 
+                        (openDatabaseViewModel.SqlServerInstances.Count > 0) ?
+                        openDatabaseViewModel.SqlServerInstances[openDatabaseViewModel.SelectedSqlServerInstance] :
+                        null;
+                    SQLServerDatabase.OpenDatabase(
+                        this,
+                        openDatabaseViewModel.SQLServer_UseLocalServer,
+                        server,
+                        openDatabaseViewModel.SQLServer_IPAddress,
+                        openDatabaseViewModel.SQLServer_Port,
+                        openDatabaseViewModel.SQLServer_UseWindowsAuthentication,
+                        openDatabaseViewModel.SQLServer_UserName,
+                        openDatabaseViewModel.SQLServer_Password,
+                        openDatabaseViewModel.SQLServer_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLServerConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.SQLServerSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLServerImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLServerImageStore(IDatabaseHost.Database);
+                }
+                else if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.PostGreSQL)
+                {
+                    PostgreSQLDatabase.OpenDatabase(this, openDatabaseViewModel.PostgreSQL_Host, openDatabaseViewModel.PostgreSQL_Port, openDatabaseViewModel.PostgreSQL_UseWindowsAuthentication, openDatabaseViewModel.PostgreSQL_UserName, openDatabaseViewModel.PostgreSQL_Password, openDatabaseViewModel.PostgreSQL_DatabaseName);
+                    IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
                 else
                 {
@@ -78,26 +99,27 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NewDatabaseViewModel newSqlConnectionViewModel = new ViewModel.NewDatabaseViewModel();
-            View.NewDatabaseView newSqlConnectionView = new View.NewDatabaseView();
-            newSqlConnectionView.DataContext = newSqlConnectionViewModel;
-            if (newSqlConnectionView.ShowDialog() != true)
+            ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel();
+            View.NewDatabaseView newDatabaseView = new View.NewDatabaseView();
+            newDatabaseView.DataContext = newDatabaseViewModel;
+            if (newDatabaseView.ShowDialog() != true)
             {
                 return;
             }
 
             try
             {
-                DatabaseProvider databaseProvider = (DatabaseProvider)newSqlConnectionViewModel.SelectedDatabaseProvider;
+                DatabaseProvider databaseProvider = (DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
                 if (databaseProvider == DatabaseProvider.MicrosoftSQLServer)
                 {
                     SQLServerDatabase.CreateDatabase(
                         this,
-                        newSqlConnectionViewModel.SqlServerInstances[newSqlConnectionViewModel.SelectedSqlServerInstance],
-                        newSqlConnectionViewModel.SQLServer_UserName,
-                        newSqlConnectionViewModel.SQLServer_Password,
-                        newSqlConnectionViewModel.SQLServer_Folder, 
-                        newSqlConnectionViewModel.SQLServer_Filename);
+                        newDatabaseViewModel.SqlServerInstances[newDatabaseViewModel.SelectedSqlServerInstance],
+                        newDatabaseViewModel.SQLServer_UseWindowsAuthentication,
+                        newDatabaseViewModel.SQLServer_UserName,
+                        newDatabaseViewModel.SQLServer_Password,
+                        newDatabaseViewModel.SQLServer_Folder, 
+                        newDatabaseViewModel.SQLServer_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLServerConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.SQLServerSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLServerImagePathsStore(IDatabaseHost.Database);
@@ -105,8 +127,7 @@ namespace WpfFungusApp
                 }
                 else if (databaseProvider == DatabaseProvider.PostGreSQL)
                 {
-                    PostgreSQLDatabase.CreateDatabase(this, newSqlConnectionViewModel.PostgreSQL_Host, newSqlConnectionViewModel.PostgreSQL_Port, newSqlConnectionViewModel.PostgreSQL_UserName, newSqlConnectionViewModel.PostgreSQL_Password, newSqlConnectionViewModel.PostgreSQL_DatabaseName);
-
+                    PostgreSQLDatabase.CreateDatabase(this, newDatabaseViewModel.PostgreSQL_Host, newDatabaseViewModel.PostgreSQL_Port, newDatabaseViewModel.PostgreSQL_UseWindowsAuthentication, newDatabaseViewModel.PostgreSQL_UserName, newDatabaseViewModel.PostgreSQL_Password, newDatabaseViewModel.PostgreSQL_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.PostgreSQLSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
@@ -114,11 +135,19 @@ namespace WpfFungusApp
                 }
                 else if (databaseProvider == DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.CreateDatabase(this, newSqlConnectionViewModel.SQLite_Folder, newSqlConnectionViewModel.SQLite_Filename);
+                    SQLiteDatabase.CreateDatabase(this, newDatabaseViewModel.SQLite_Folder, newDatabaseViewModel.SQLite_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLiteImageStore(IDatabaseHost.Database);
+                }
+                else if (databaseProvider == DatabaseProvider.MySQL)
+                {
+                    MySQLDatabase.CreateDatabase(this, newDatabaseViewModel.MySQL_Host, newDatabaseViewModel.MySQL_Port, newDatabaseViewModel.MySQL_UseWindowsAuthentication, newDatabaseViewModel.MySQL_UserName, newDatabaseViewModel.MySQL_Password, newDatabaseViewModel.MySQL_DatabaseName);
+                    IDatabaseHost.IConfigurationStore = new DBStore.MySQLConfigurationStore(IDatabaseHost.Database);
+                    IDatabaseHost.ISpeciesStore = new DBStore.MySQLSpeciesStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImagePathsStore = new DBStore.MySQLImagePathsStore(IDatabaseHost.Database);
+                    IDatabaseHost.IImageStore = new DBStore.MySQLImageStore(IDatabaseHost.Database);
                 }
                 else
                 {

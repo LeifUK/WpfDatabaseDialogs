@@ -33,7 +33,7 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Database Provider and Connection" Padding="0,10,0,0" Style="{StaticResource GroupBoxStyle}">
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Database Provider and Connection" Padding="10" Style="{StaticResource GroupBoxStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -51,11 +51,10 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0" Grid.Column="1">
+                <Grid Grid.Row="0" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
@@ -104,13 +103,13 @@
                     </GroupBox>
                 </Grid>
 
-                <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Content="Microsoft SQL Server" 
+                <RadioButton x:Name="_radioButtonMicrosoftSQLServer" Grid.Row="2" Grid.Column="0" Content="Microsoft SQL Server" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.MicrosoftSQLServer}}" />
 
-                <Grid Grid.Row="4" Grid.Column="1" Margin="20,0,0,10" HorizontalAlignment="Left">
+                <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,10" HorizontalAlignment="Left">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
@@ -164,16 +163,15 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
-                                         x:Name="_radioButtonSQLServerWindowsAuthentication"
                                          GroupName="SqlServerAuthentication"
                                          IsChecked="{Binding SQLServer_UseWindowsAuthentication}"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" Content="SQL Server Authentication" 
                                          GroupName="SqlServerAuthentication"/>
-                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,0">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonSQLServerWindowsAuthentication}" Value="True">
+                                            <DataTrigger Binding="{Binding SQLServer_UseWindowsAuthentication}" Value="True">
                                                 <Setter Property="IsEnabled" Value="false" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -220,13 +218,13 @@
                     </GroupBox>
                 </Grid>
 
-                <RadioButton x:Name="_radioButtonPostgreSQL" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" Content="PostgreSQL" 
+                <RadioButton x:Name="_radioButtonPostgreSQL" Grid.Row="6" Grid.Column="0" Content="PostgreSQL" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.PostGreSQL}}"/>
 
-                <Grid Grid.Row="8" Grid.Column="1" Margin="20,0,0,10" >
+                <Grid Grid.Row="8" Grid.Column="0" Margin="20,0,0,10" >
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
@@ -248,21 +246,33 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Host IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                    <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding PostgreSQL_UseIPv6}" Content="IPv6"/>
-                    <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                    <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <GroupBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding PostgreSQL_UseIPv6}" Content="IPv6"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
@@ -271,23 +281,18 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
-                                         x:Name="_radioButtonPostgreSQLWindowsAuthentication"
+                            <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
                                          GroupName="PostgreSQLAuthentication"
                                          IsChecked="{Binding PostgreSQL_UseWindowsAuthentication}"/>
-                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="PostgreSQL Authentication" 
+                            <RadioButton Grid.Row="2" Grid.Column="0" Content="PostgreSQL Authentication" 
                                          GroupName="PostgreSQLAuthentication"/>
 
-                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,0">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonPostgreSQLWindowsAuthentication}" Value="True">
+                                            <DataTrigger Binding="{Binding PostgreSQL_UseWindowsAuthentication}" Value="True">
                                                 <Setter Property="IsEnabled" Value="false" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -310,17 +315,20 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
-                    <Label Grid.Row="6" Grid.Column="0" Content="Database Name" />
-                    <TextBox Grid.Row="6" Grid.Column="2" x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Database Name" />
+                        <Separator Width="10"  Height="0"/>
+                        <TextBox x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Grid>
 
-                <RadioButton x:Name="_radioButtonMySQL" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="5" Content="MySQL" 
+                <RadioButton x:Name="_radioButtonMySQL" Grid.Row="10" Grid.Column="0" Content="MySQL" 
                              GroupName="DatabaseProvider"
                              IsChecked="{Binding Path=SelectedDatabaseProvider, Mode=TwoWay, 
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static DBStore:DatabaseProvider.MySQL}}" />
 
-                <Grid Grid.Row="12" Grid.Column="1" Margin="20,0,0,10" HorizontalAlignment="Left">
+                <Grid Grid.Row="12" Grid.Column="0" Margin="20,0,0,0" HorizontalAlignment="Left">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>
@@ -334,23 +342,34 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Instance" />
-                    <ComboBox Grid.Row="0" Grid.Column="2" x:Name="_comboBoxMySQLInstances" ItemsSource="{Binding MySQLInstances}" SelectedIndex="{Binding SelectedMySQLInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
-                        <Grid>
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxMySQLHost"  Text="{Binding MySQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding MySQL_UseIPv6}" Content="IPv6"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxMySQLPort" Text="{Binding MySQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                        <Grid >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="10"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
@@ -359,43 +378,18 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Windows Authentication" 
-                                         x:Name="_radioButtonMySQLWindowsAuthentication"
-                                         GroupName="MySQLAuthentication"
-                                         IsChecked="{Binding MySQL_UseWindowsAuthentication}"/>
-                            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Content="MySQL Authentication" 
-                                         GroupName="MySQLAuthentication"/>
-
-                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=_radioButtonMySQLWindowsAuthentication}" Value="True">
-                                                <Setter Property="IsEnabled" Value="false" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
-                                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
-                            </Grid>
+                            <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
                         </Grid>
                     </GroupBox>
+                    <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                        <Label Content="Database Name" />
+                        <Separator Width="10"  Height="0"/>
+                        <TextBox x:Name="_textBoxMySQLDatabaseName" Text="{Binding MySQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </GroupBox>

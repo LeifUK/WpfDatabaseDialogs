@@ -1,54 +1,55 @@
 ﻿using System.Text;
+using System.Data.SqlClient;
 
 namespace WpfFungusApp.DBStore
 {
     internal class SQLServerDatabase
     {
-        private static string MakeConnectionString(string dataSource, string userName, string password, string dbName)
+        private static string MakeConnectionString(bool useDataSource, string dataSource, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Data Source=");
-            stringBuilder.Append(dataSource);
-            if (string.IsNullOrEmpty(userName))
+            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder();
+            if (useDataSource)
             {
-                stringBuilder.Append("; Integrated security = SSPI; database = ");
+                sqlConnectionStringBuilder.DataSource = dataSource;
             }
             else
             {
-                stringBuilder.Append("; User Id=");
-                stringBuilder.Append(userName);
-                stringBuilder.Append("; Password=");
-                stringBuilder.Append(password);
-                stringBuilder.Append("; database = ");
+                sqlConnectionStringBuilder.DataSource = host + "," + port;
             }
 
-            stringBuilder.Append(dbName);
-            return stringBuilder.ToString();
+            if (useWindowsAuthentication)
+            {
+                sqlConnectionStringBuilder.IntegratedSecurity = true;
+            }
+            else
+            {
+                sqlConnectionStringBuilder.UserID = userName;
+                sqlConnectionStringBuilder.Password = password;
+            }
+
+            sqlConnectionStringBuilder.InitialCatalog = dbName;
+            return sqlConnectionStringBuilder.ToString();
         }
 
-        public static void CreateDatabase(IDatabaseHost databaseHost, string dataSource, string userName, string password, string folder, string dbName)
+        public static void CreateDatabase(IDatabaseHost databaseHost, string dataSource, bool useWindowsAuthentication, string userName, string password, string folder, string dbName)
         {
             // Connect to the master DB to create the requested database
 
-            string connectionString = MakeConnectionString(dataSource, userName, password, "master");
-            databaseHost.Database = new PetaPoco.Database(connectionString, "System.Data.SqlClient");
-        
-            databaseHost.Database.OpenSharedConnection();
+            OpenDatabase(databaseHost, true, dataSource, null, -1, useWindowsAuthentication, userName, password, "master");
+
             string filename = System.IO.Path.Combine(folder, dbName);
             databaseHost.Database.Execute("CREATE DATABASE " + dbName + " ON PRIMARY (Name=" + dbName + ", filename = \"" + filename + ".mdf\") LOG ON (name=" + dbName + "_log, filename=\"" + filename + ".ldf\")");
             databaseHost.Database.CloseSharedConnection();
 
             // Connect to the new database
 
-            connectionString = MakeConnectionString(dataSource, userName, password, dbName);
-            databaseHost.Database = new PetaPoco.Database(connectionString, "System.Data.SqlClient");
-            databaseHost.Database.OpenSharedConnection();
+            OpenDatabase(databaseHost, true, dataSource, null, -1, useWindowsAuthentication, userName, password, dbName);
         }
 
-        public static void OpenDatabase(IDatabaseHost databaseHost, string dbName)
+        public static void OpenDatabase(IDatabaseHost databaseHost, bool useDataSource, string dataSource, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
         {
-            // Warning warning => get the user name and password from the user ... 
-            databaseHost.Database = new PetaPoco.Database(@"Data Source=.\SQLEXPRESS; Integrated security = SSPI; database = " + dbName, "System.Data.SqlClient");
+            string connectionString = MakeConnectionString(useDataSource, dataSource, host, port, useWindowsAuthentication, userName, password, dbName);
+            databaseHost.Database = new PetaPoco.Database(connectionString, "System.Data.SqlClient");
             databaseHost.Database.OpenSharedConnection();
         }
     }

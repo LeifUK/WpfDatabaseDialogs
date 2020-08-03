@@ -17,6 +17,8 @@ namespace WpfFungusApp.ViewModel
             PostgreSQL_Port = 5432;
             PostgreSQL_UseWindowsAuthentication = true;
 
+            MySQL_Host = "127.0.0.1";
+            MySQL_UseIPv6 = false;
             MySQL_UseWindowsAuthentication = true;
         }
 
@@ -315,6 +317,87 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        private string _mySQL_Host;
+        public string MySQL_Host
+        {
+            get
+            {
+                return _mySQL_Host;
+            }
+            set
+            {
+                try
+                {
+                    System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse(value);
+                    if (MySQL_UseIPv6)
+                    {
+                        byte[] bytes = ipAddress.GetAddressBytes();
+                        bool first = true;
+                        string text = "";
+                        for (int index = 0; index < 16; index += 2)
+                        {
+                            if (!first)
+                            {
+                                text += ":";
+                            }
+                            short shortVal = (short)(bytes[index + 1] + (bytes[index] << 8));
+                            first = false;
+                            text += shortVal.ToString("X");
+                        }
+                        _mySQL_Host = text;
+                    }
+                    else
+                    {
+                        _mySQL_Host = ipAddress.ToString();
+                    }
+                }
+                catch
+                {
+
+                }
+                NotifyPropertyChanged("MySQL_Host");
+            }
+        }
+
+        private bool _mySQL_UseIPv6;
+        public bool MySQL_UseIPv6
+        {
+            get
+            {
+                return _mySQL_UseIPv6;
+            }
+            set
+            {
+                if (_mySQL_UseIPv6 != value)
+                {
+                    _mySQL_UseIPv6 = value;
+                    if (value)
+                    {
+                        MySQL_Host = "0:0:0:0:0:0:0:1";
+                    }
+                    else
+                    {
+                        MySQL_Host = "127.0.0.1";
+                    }
+                }
+                NotifyPropertyChanged("MySQL_UseIPv6");
+            }
+        }
+
+        private ushort _mySQL_Port;
+        public ushort MySQL_Port
+        {
+            get
+            {
+                return _mySQL_Port;
+            }
+            set
+            {
+                _mySQL_Port = value;
+                NotifyPropertyChanged("MySQL_Port");
+            }
+        }
+
         private bool _mySQL_UseWindowsAuthentication;
         public bool MySQL_UseWindowsAuthentication
         {
@@ -354,6 +437,20 @@ namespace WpfFungusApp.ViewModel
             {
                 _mySQL_Password = value;
                 NotifyPropertyChanged("MySQL_Password");
+            }
+        }
+
+        private string _mySQL_DatabaseName;
+        public string MySQL_DatabaseName
+        {
+            get
+            {
+                return _mySQL_DatabaseName;
+            }
+            set
+            {
+                _mySQL_DatabaseName = value;
+                NotifyPropertyChanged("MySQL_DatabaseName");
             }
         }
     }

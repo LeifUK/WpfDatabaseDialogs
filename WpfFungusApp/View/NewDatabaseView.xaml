@@ -95,10 +95,10 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" Content="Location"  HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Folder}" IsReadOnly="True"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Folder}" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"/>
                             <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteFolders_Click"/>
                             <Label Grid.Row="2" Grid.Column="0" Content="Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_Filename}" />
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_Filename}" Style="{StaticResource TextBoxStyle}" />
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -144,7 +144,7 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                        <Label Grid.Row="0" Grid.Column="0" Content="Instance" />
+                        <Label Grid.Row="0" Grid.Column="0" Content="Instance" Style="{StaticResource LabelStyle}"/>
                         <Separator Width="10" Height="0"/>
                         <ComboBox Grid.Row="0" Grid.Column="2" x:Name="_comboBoxSqlServerInstances" ItemsSource="{Binding SqlServerInstances}" SelectedIndex="{Binding SelectedSqlServerInstance}" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <Separator Width="10" Height="0"/>
@@ -188,9 +188,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                             </Grid>                            
                         </Grid>
                     </GroupBox>
@@ -210,10 +210,10 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" Content="Location"  HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_Folder}" IsReadOnly="True"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_Folder}" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"/>
                             <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseMicrosoftSQLServerFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseMicrosoftSQLServerFolders_Click"/>
                             <Label Grid.Row="2" Grid.Column="0" Content="Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Filename}" />
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Filename}" Style="{StaticResource TextBoxStyle}" />
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -309,16 +309,16 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                             </Grid>
                         </Grid>
                     </GroupBox>
                     <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
                         <Label Content="Database Name" />
                         <Separator Width="10"  Height="0"/>
-                        <TextBox x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="_textBoxPostgreSQLDatabaseName" Text="{Binding PostgreSQL_DatabaseName}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
                     </StackPanel>
                 </Grid>
 
@@ -362,10 +362,10 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxMySQLHost"  Text="{Binding MySQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxMySQLHost"  Text="{Binding MySQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
                         <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding MySQL_UseIPv6}" Content="IPv6"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxMySQLPort" Text="{Binding MySQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxMySQLPort" Text="{Binding MySQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
                     </Grid>
                     <GroupBox Grid.Row="2" Grid.Column="0" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid >
@@ -380,9 +380,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                             <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                         </Grid>
                     </GroupBox>
                     <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">

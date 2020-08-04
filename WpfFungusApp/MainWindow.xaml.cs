@@ -99,13 +99,16 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel();
+            ViewModel.DatabaseConfiguration databaseConfiguration = new ViewModel.DatabaseConfiguration();
+            databaseConfiguration.Load();
+            ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel(databaseConfiguration);
             View.NewDatabaseView newDatabaseView = new View.NewDatabaseView();
             newDatabaseView.DataContext = newDatabaseViewModel;
             if (newDatabaseView.ShowDialog() != true)
             {
                 return;
             }
+            databaseConfiguration.Save();
 
             try
             {

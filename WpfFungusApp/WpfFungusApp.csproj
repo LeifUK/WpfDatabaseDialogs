@@ -136,6 +136,8 @@
     <Compile Include="Export\PageWriterPhotoIndex.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
+    <Compile Include="ViewModel\DatabaseConfiguration.cs" />
+    <Compile Include="ViewModel\IDatabaseConfiguration.cs" />
     <Compile Include="ViewModel\OpenDatabaseViewModel.cs" />
     <Compile Include="ViewModel\NewDatabaseViewModel.cs" />
     <Compile Include="ViewModel\SpeciesListViewModel.cs" />

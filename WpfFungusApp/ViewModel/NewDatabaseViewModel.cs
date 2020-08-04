@@ -11,6 +11,7 @@ namespace WpfFungusApp.ViewModel
         }
 
         public readonly IDatabaseConfiguration IDatabaseConfiguration;
+
         public void Refresh()
         {
             System.Data.Sql.SqlDataSourceEnumerator instance = System.Data.Sql.SqlDataSourceEnumerator.Instance;

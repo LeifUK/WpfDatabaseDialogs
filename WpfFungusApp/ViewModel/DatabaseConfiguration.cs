@@ -10,6 +10,11 @@ namespace WpfFungusApp.ViewModel
             SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
             SQLServer_UseWindowsAuthentication = true;
+            SQLServer_UseLocalServer = true;
+            SQLServer_IPAddress = "127.0.0.1";
+            SQLServer_UseIPv6 = false;
+            SQLServer_Port = 1433;
+            SQLServer_UseWindowsAuthentication = true;
 
             PostgreSQL_Host = "127.0.0.1";
             PostgreSQL_UseIPv6 = false;
@@ -65,9 +70,15 @@ namespace WpfFungusApp.ViewModel
             {
                 SQLite_Folder = Load(key, "SQLite_Folder", SQLite_Folder);
                 SQLite_Filename = Load(key, "SQLite_Filename", SQLite_Filename);
+
+                SQLServer_UseLocalServer = Load(key, "SQLServer_UseLocalServer", SQLServer_UseLocalServer);
+                SQLServer_IPAddress = Load(key, "SQLServer_IPAddress", SQLServer_IPAddress);
+                SQLServer_UseIPv6 = Load(key, "SQLServer_UseIPv6", SQLServer_UseIPv6);
+                SQLServer_Port = Load(key, "SQLServer_Port", SQLServer_Port);
                 SQLServer_UseWindowsAuthentication = Load(key, "SQLServer_UseWindowsAuthentication", SQLServer_UseWindowsAuthentication);
                 SQLServer_Folder = Load(key, "SQLServer_Folder", SQLServer_Folder);
                 SQLServer_Filename = Load(key, "SQLServer_Filename", SQLServer_Filename);
+                SQLServer_DatabaseName = Load(key, "SQLServer_DatabaseName", SQLServer_DatabaseName);
 
                 PostgreSQL_Host = Load(key, "PostgreSQL_Host", PostgreSQL_Host);
                 PostgreSQL_UseIPv6 = Load(key, "PostgreSQL_UseIPv6", PostgreSQL_UseIPv6);
@@ -115,9 +126,14 @@ namespace WpfFungusApp.ViewModel
 
             Save(key, "SQLite_Folder", SQLite_Folder);
             Save(key, "SQLite_Filename", SQLite_Filename);
+            Save(key, "SQLServer_UseLocalServer", SQLServer_UseLocalServer);
+            Save(key, "SQLServer_IPAddress", SQLServer_IPAddress);
+            Save(key, "SQLServer_UseIPv6", SQLServer_UseIPv6);
+            Save(key, "SQLServer_Port", SQLServer_Port);
             Save(key, "SQLServer_UseWindowsAuthentication", SQLServer_UseWindowsAuthentication);
             Save(key, "SQLServer_Folder", SQLServer_Folder);
             Save(key, "SQLServer_Filename", SQLServer_Filename);
+            Save(key, "SQLServer_DatabaseName", SQLServer_DatabaseName);
             Save(key, "PostgreSQL_Host", PostgreSQL_Host);
             Save(key, "PostgreSQL_UseIPv6", PostgreSQL_UseIPv6);
             Save(key, "PostgreSQL_Port", PostgreSQL_Port);
@@ -140,6 +156,10 @@ namespace WpfFungusApp.ViewModel
         public string SQLite_Filename { get; set; }
 
         public int SelectedSqlServerInstance { get; set; }
+        public bool SQLServer_UseLocalServer { get; set; }
+        public string SQLServer_IPAddress { get; set; }
+        public bool SQLServer_UseIPv6 { get; set; }
+        public ushort SQLServer_Port { get; set; }
         public bool SQLServer_UseWindowsAuthentication { get; set; }
         // Not persisted
         public string SQLServer_UserName { get; set; }
@@ -147,6 +167,7 @@ namespace WpfFungusApp.ViewModel
         public string SQLServer_Password { get; set; }
         public string SQLServer_Folder { get; set; }
         public string SQLServer_Filename { get; set; }
+        public string SQLServer_DatabaseName { get; set; }
 
         public string PostgreSQL_Host { get; set; }
         public bool PostgreSQL_UseIPv6 { get; set; }

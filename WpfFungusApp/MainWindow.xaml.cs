@@ -36,13 +36,16 @@ namespace WpfFungusApp
 
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = new ViewModel.OpenDatabaseViewModel();
+            ViewModel.DatabaseConfiguration databaseConfiguration = new ViewModel.DatabaseConfiguration();
+            databaseConfiguration.Load();
+            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = new ViewModel.OpenDatabaseViewModel(databaseConfiguration);
             View.OpenDatabaseView openDatabaseView = new View.OpenDatabaseView();
             openDatabaseView.DataContext = openDatabaseViewModel;
             if (openDatabaseView.ShowDialog() != true)
             {
                 return;
             }
+            databaseConfiguration.Save();
 
             try
             {

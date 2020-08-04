@@ -6,11 +6,16 @@
         string SQLite_Filename { get; set; }
 
         int SelectedSqlServerInstance { get; set; }
+        bool SQLServer_UseLocalServer { get; set; }
+        string SQLServer_IPAddress { get; set; }
+        bool SQLServer_UseIPv6 { get; set; }
+        ushort SQLServer_Port { get; set; }
         bool SQLServer_UseWindowsAuthentication { get; set; }
         string SQLServer_UserName { get; set; }
         string SQLServer_Password { get; set; }
         string SQLServer_Folder { get; set; }
         string SQLServer_Filename { get; set; }
+        string SQLServer_DatabaseName { get; set; }
 
         string PostgreSQL_Host { get; set; }
         bool PostgreSQL_UseIPv6 { get; set; }

@@ -5,24 +5,16 @@ namespace WpfFungusApp.ViewModel
 {
     class OpenDatabaseViewModel : BaseViewModel
     {
-        public OpenDatabaseViewModel()
+        public OpenDatabaseViewModel(IDatabaseConfiguration iDatabaseConfiguration)
         {
+            IDatabaseConfiguration = iDatabaseConfiguration;
+            // Warning warning
             SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
             SqlServerInstances = new ObservableCollection<string>();
-            SQLServer_UseLocalServer = true;
-            SQLServer_IPAddress = "127.0.0.1";
-            SQLServer_UseIPv6 = false;
-            SQLServer_Port = 1433;
-            SQLServer_UseWindowsAuthentication = true;
-
-            PostgreSQL_Host = "127.0.0.1";
-            PostgreSQL_UseIPv6 = false;
-            PostgreSQL_Port = 5432;
-            PostgreSQL_UseWindowsAuthentication = true;
-
-            MySQL_UseWindowsAuthentication = true;
         }
+
+        public readonly IDatabaseConfiguration IDatabaseConfiguration;
 
         public void Refresh()
         {
@@ -70,54 +62,50 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private string _sqlite_Filename;
         public string SQLite_Filename
         {
             get
             {
-                return _sqlite_Filename;
+                return IDatabaseConfiguration.SQLite_Filename;
             }
             set
             {
-                _sqlite_Filename = value;
+                IDatabaseConfiguration.SQLite_Filename = value;
                 NotifyPropertyChanged("SQLite_Filename");
             }
         }
 
-        private bool _sqlServer_LocalServer;
         public bool SQLServer_UseLocalServer
         {
             get
             {
-                return _sqlServer_LocalServer;
+                return IDatabaseConfiguration.SQLServer_UseLocalServer;
             }
             set
             {
-                _sqlServer_LocalServer = value;
+                IDatabaseConfiguration.SQLServer_UseLocalServer = value;
                 NotifyPropertyChanged("SQLServer_UseLocalServer");
             }
         }
 
-        private int _selectedSqlServerInstance;
         public int SelectedSqlServerInstance
         {
             get
             {
-                return _selectedSqlServerInstance;
+                return IDatabaseConfiguration.SelectedSqlServerInstance;
             }
             set
             {
-                _selectedSqlServerInstance = value;
+                IDatabaseConfiguration.SelectedSqlServerInstance = value;
                 NotifyPropertyChanged("SelectedSqlServerInstance");
             }
         }
 
-        private string _sqlServer_IPAddress;
         public string SQLServer_IPAddress
         {
             get
             {
-                return _sqlServer_IPAddress;
+                return IDatabaseConfiguration.SQLServer_IPAddress;
             }
             set
             {
@@ -139,11 +127,11 @@ namespace WpfFungusApp.ViewModel
                             first = false;
                             text += shortVal.ToString("X");
                         }
-                        _sqlServer_IPAddress = text;
+                        IDatabaseConfiguration.SQLServer_IPAddress = text;
                     }
                     else
                     {
-                        _sqlServer_IPAddress = ipAddress.ToString();
+                        IDatabaseConfiguration.SQLServer_IPAddress = ipAddress.ToString();
                     }
                 }
                 catch
@@ -154,18 +142,17 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private bool _sqlServer_UseIPv6;
         public bool SQLServer_UseIPv6
         {
             get
             {
-                return _sqlServer_UseIPv6;
+                return IDatabaseConfiguration.SQLServer_UseIPv6;
             }
             set
             {
-                if (_sqlServer_UseIPv6 != value)
+                if (IDatabaseConfiguration.SQLServer_UseIPv6 != value)
                 {
-                    _sqlServer_UseIPv6 = value;
+                    IDatabaseConfiguration.SQLServer_UseIPv6 = value;
                     if (value)
                     {
                         SQLServer_IPAddress = "0:0:0:0:0:0:0:1";
@@ -179,96 +166,89 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private ushort _sqlServer_Port;
         public ushort SQLServer_Port
         {
             get
             {
-                return _sqlServer_Port;
+                return IDatabaseConfiguration.SQLServer_Port;
             }
             set
             {
-                _sqlServer_Port = value;
+                IDatabaseConfiguration.SQLServer_Port = value;
                 NotifyPropertyChanged("SQLServer_Port");
             }
         }
 
-        private bool _sqlServer_UseWindowsAuthentication;
         public bool SQLServer_UseWindowsAuthentication
         {
             get
             {
-                return _sqlServer_UseWindowsAuthentication;
+                return IDatabaseConfiguration.SQLServer_UseWindowsAuthentication;
             }
             set
             {
-                _sqlServer_UseWindowsAuthentication = value;
+                IDatabaseConfiguration.SQLServer_UseWindowsAuthentication = value;
                 NotifyPropertyChanged("SQLServer_UseWindowsAuthentication");
             }
         }
         
-        private string _sqlServer_UserName;
         public string SQLServer_UserName
         {
             get
             {
-                return _sqlServer_UserName;
+                return IDatabaseConfiguration.SQLServer_UserName;
             }
             set
             {
-                _sqlServer_UserName = value;
+                IDatabaseConfiguration.SQLServer_UserName = value;
                 NotifyPropertyChanged("SQLServer_UserName");
             }
         }
 
-        private string _sqlServer_Password;
         public string SQLServer_Password
         {
             get
             {
-                return _sqlServer_Password;
+                return IDatabaseConfiguration.SQLServer_Password;
             }
             set
             {
-                _sqlServer_Password = value;
+                IDatabaseConfiguration.SQLServer_Password = value;
                 NotifyPropertyChanged("SQLServer_Password");
             }
         }
 
-        private string _sqlServer_Folder;
         public string SQLServer_Folder
         {
             get
             {
-                return _sqlServer_Folder;
+                return IDatabaseConfiguration.SQLServer_Folder;
             }
             set
             {
-                _sqlServer_Folder = value;
+                IDatabaseConfiguration.SQLServer_Folder = value;
                 NotifyPropertyChanged("SQLServer_Folder");
             }
         }
 
-        private string _sqlServer_DatabaseName;
         public string SQLServer_DatabaseName
         {
             get
             {
-                return _sqlServer_DatabaseName;
+                return IDatabaseConfiguration.SQLServer_DatabaseName;
             }
             set
             {
-                _sqlServer_DatabaseName = value;
+                IDatabaseConfiguration.SQLServer_DatabaseName = value;
                 NotifyPropertyChanged("SQLServer_DatabaseName");
             }
         }
 
-        private string _postgreSQL_Host;
         public string PostgreSQL_Host
         {
             get
             {
-                return _postgreSQL_Host;
+                return IDatabaseConfiguration.PostgreSQL_Host;
             }
             set
             {
@@ -290,11 +270,11 @@ namespace WpfFungusApp.ViewModel
                             first = false;
                             text += shortVal.ToString("X");
                         }
-                        _postgreSQL_Host = text;
+                        IDatabaseConfiguration.PostgreSQL_Host = text;
                     }
                     else
                     {
-                        _postgreSQL_Host = ipAddress.ToString();
+                        IDatabaseConfiguration.PostgreSQL_Host = ipAddress.ToString();
                     }
                 }
                 catch
@@ -305,18 +285,17 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private bool _postgreSQL_UseIPv6;
         public bool PostgreSQL_UseIPv6
         {
             get
             {
-                return _postgreSQL_UseIPv6;
+                return IDatabaseConfiguration.PostgreSQL_UseIPv6;
             }
             set
             {
-                if (_postgreSQL_UseIPv6 != value)
+                if (IDatabaseConfiguration.PostgreSQL_UseIPv6 != value)
                 {
-                    _postgreSQL_UseIPv6 = value;
+                    IDatabaseConfiguration.PostgreSQL_UseIPv6 = value;
                     if (value)
                     {
                         PostgreSQL_Host = "0:0:0:0:0:0:0:1";
@@ -330,114 +309,106 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        private ushort _postgreSQL_Port;
         public ushort PostgreSQL_Port
         {
             get
             {
-                return _postgreSQL_Port;
+                return IDatabaseConfiguration.PostgreSQL_Port;
             }
             set
             {
-                _postgreSQL_Port = value;
+                IDatabaseConfiguration.PostgreSQL_Port = value;
                 NotifyPropertyChanged("PostgreSQL_Port");
             }
         }
 
-        private bool _postgreSQL_UseWindowsAuthentication;
         public bool PostgreSQL_UseWindowsAuthentication
         {
             get
             {
-                return _postgreSQL_UseWindowsAuthentication;
+                return IDatabaseConfiguration.PostgreSQL_UseWindowsAuthentication;
             }
             set
             {
-                _postgreSQL_UseWindowsAuthentication = value;
+                IDatabaseConfiguration.PostgreSQL_UseWindowsAuthentication = value;
                 NotifyPropertyChanged("PostgreSQL_UseWindowsAuthentication");
             }
         }
 
-        private string _postgreSQL_UserName;
         public string PostgreSQL_UserName
         {
             get
             {
-                return _postgreSQL_UserName;
+                return IDatabaseConfiguration.PostgreSQL_UserName;
             }
             set
             {
-                _postgreSQL_UserName = value;
+                IDatabaseConfiguration.PostgreSQL_UserName = value;
                 NotifyPropertyChanged("PostgreSQL_UserName");
             }
         }
 
-        private string _postgreSQL_Password;
         public string PostgreSQL_Password
         {
             get
             {
-                return _postgreSQL_Password;
+                return IDatabaseConfiguration.PostgreSQL_Password;
             }
             set
             {
-                _postgreSQL_Password = value;
+                IDatabaseConfiguration.PostgreSQL_Password = value;
                 NotifyPropertyChanged("PostgreSQL_Password");
             }
         }
 
-        private string _postgreSQL_DatabaseName;
         public string PostgreSQL_DatabaseName
         {
             get
             {
-                return _postgreSQL_DatabaseName;
+                return IDatabaseConfiguration.PostgreSQL_DatabaseName;
             }
             set
             {
-                _postgreSQL_DatabaseName = value;
+                IDatabaseConfiguration.PostgreSQL_DatabaseName = value;
                 NotifyPropertyChanged("PostgreSQL_DatabaseName");
             }
         }
 
-        private bool _mySQL_UseWindowsAuthentication;
         public bool MySQL_UseWindowsAuthentication
         {
             get
             {
-                return _mySQL_UseWindowsAuthentication;
+                return IDatabaseConfiguration.MySQL_UseWindowsAuthentication;
             }
             set
             {
-                _mySQL_UseWindowsAuthentication = value;
+                IDatabaseConfiguration.MySQL_UseWindowsAuthentication = value;
                 NotifyPropertyChanged("MySQL_UseWindowsAuthentication");
             }
         }
 
-        private string _mySQL_UserName;
         public string MySQL_UserName
         {
             get
             {
-                return _mySQL_UserName;
+                return IDatabaseConfiguration.MySQL_UserName;
             }
             set
             {
-                _mySQL_UserName = value;
+                IDatabaseConfiguration.MySQL_UserName = value;
                 NotifyPropertyChanged("MySQL_UserName");
             }
         }
 
-        private string _mySQL_Password;
         public string MySQL_Password
         {
             get
             {
-                return _mySQL_Password;
+                return IDatabaseConfiguration.MySQL_Password;
             }
             set
             {
-                _mySQL_Password = value;
+                IDatabaseConfiguration.MySQL_Password = value;
                 NotifyPropertyChanged("MySQL_Password");
             }
         }

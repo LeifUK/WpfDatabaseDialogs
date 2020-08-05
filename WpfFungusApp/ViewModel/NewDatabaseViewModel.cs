@@ -5,15 +5,17 @@ namespace WpfFungusApp.ViewModel
 {
     class NewDatabaseViewModel : BaseViewModel
     {
-        public NewDatabaseViewModel(IDatabaseConfiguration iDatabaseConfiguration)
+        public NewDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
         {
             IDatabaseConfiguration = iDatabaseConfiguration;
+            SqlServerInstances = new ObservableCollection<string>();
         }
 
-        public readonly IDatabaseConfiguration IDatabaseConfiguration;
+        public readonly Model.IDatabaseConfiguration IDatabaseConfiguration;
 
         public void Refresh()
         {
+            SqlServerInstances.Clear();
             System.Data.Sql.SqlDataSourceEnumerator instance = System.Data.Sql.SqlDataSourceEnumerator.Instance;
             System.Data.DataTable dataTable = instance.GetDataSources();
 
@@ -162,11 +164,11 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        public string PostgreSQL_Host
+        public string PostgreSQL_IPAddress
         {
             get
             {
-                return IDatabaseConfiguration.PostgreSQL_Host;
+                return IDatabaseConfiguration.PostgreSQL_IPAddress;
             }
             set
             {
@@ -188,18 +190,18 @@ namespace WpfFungusApp.ViewModel
                             first = false;
                             text += shortVal.ToString("X");
                         }
-                        IDatabaseConfiguration.PostgreSQL_Host = text;
+                        IDatabaseConfiguration.PostgreSQL_IPAddress = text;
                     }
                     else
                     {
-                        IDatabaseConfiguration.PostgreSQL_Host = ipAddress.ToString();
+                        IDatabaseConfiguration.PostgreSQL_IPAddress = ipAddress.ToString();
                     }
                 }
                 catch
                 {
 
                 }
-                NotifyPropertyChanged("PostgreSQL_Host");
+                NotifyPropertyChanged("PostgreSQL_IPAddress");
             }
         }
 
@@ -216,11 +218,11 @@ namespace WpfFungusApp.ViewModel
                     IDatabaseConfiguration.PostgreSQL_UseIPv6 = value;
                     if (value)
                     {
-                        PostgreSQL_Host = "0:0:0:0:0:0:0:1";
+                        PostgreSQL_IPAddress = "0:0:0:0:0:0:0:1";
                     }
                     else
                     {
-                        PostgreSQL_Host = "127.0.0.1";
+                        PostgreSQL_IPAddress = "127.0.0.1";
                     }
                 }
                 NotifyPropertyChanged("PostgreSQL_UseIPv6");
@@ -292,11 +294,11 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        public string MySQL_Host
+        public string MySQL_IPAddress
         {
             get
             {
-                return IDatabaseConfiguration.MySQL_Host;
+                return IDatabaseConfiguration.MySQL_IPAddress;
             }
             set
             {
@@ -318,18 +320,18 @@ namespace WpfFungusApp.ViewModel
                             first = false;
                             text += shortVal.ToString("X");
                         }
-                        IDatabaseConfiguration.MySQL_Host = text;
+                        IDatabaseConfiguration.MySQL_IPAddress = text;
                     }
                     else
                     {
-                        IDatabaseConfiguration.MySQL_Host = ipAddress.ToString();
+                        IDatabaseConfiguration.MySQL_IPAddress = ipAddress.ToString();
                     }
                 }
                 catch
                 {
 
                 }
-                NotifyPropertyChanged("MySQL_Host");
+                NotifyPropertyChanged("MySQL_IPAddress");
             }
         }
 
@@ -346,11 +348,11 @@ namespace WpfFungusApp.ViewModel
                     IDatabaseConfiguration.MySQL_UseIPv6 = value;
                     if (value)
                     {
-                        MySQL_Host = "0:0:0:0:0:0:0:1";
+                        MySQL_IPAddress = "0:0:0:0:0:0:0:1";
                     }
                     else
                     {
-                        MySQL_Host = "127.0.0.1";
+                        MySQL_IPAddress = "127.0.0.1";
                     }
                 }
                 NotifyPropertyChanged("MySQL_UseIPv6");

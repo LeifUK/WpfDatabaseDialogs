@@ -7,15 +7,19 @@ namespace WpfFungusApp.DBStore
         public ConfigurationStore(PetaPoco.Database database)
         {
             _database = database;
+            UseTableNameFix = false;
         }
 
+        // Postgres converts the table name in queries to lower case unless enclosed in quotes
+        public bool UseTableNameFix { get; protected set; }
         protected readonly PetaPoco.Database _database;
 
         public abstract void CreateTable();
 
         private void CreateIfNotExists(DBObject.Configuration configuration)
         {
-            if (_database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='" + configuration.name + "'").Count() == 0)
+            string query = UseTableNameFix ? "SELECT * FROM \"tblConfiguration\" WHERE name='" : "SELECT * FROM tblConfiguration WHERE name='";
+            if (_database.Query<DBObject.Configuration>(query + configuration.name + "'").Count() == 0)
             {
                 _database.Insert("tblConfiguration", "name", configuration);
             }
@@ -46,7 +50,11 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='copyright'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>(
+                    UseTableNameFix ? 
+                    "SELECT * FROM \"tblConfiguration\" WHERE name='copyright'" :
+                    "SELECT * FROM tblConfiguration WHERE name='copyright'"
+                    ).First();
                 return configuration != null ? configuration.value : "";
             }
             set
@@ -59,7 +67,11 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='export folder'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>(
+                    UseTableNameFix ?
+                    "SELECT * FROM \"tblConfiguration\" WHERE name='export folder'" :
+                    "SELECT * FROM tblConfiguration WHERE name='export folder'"
+                    ).First();
                 return configuration != null ? configuration.value : "";
             }
             set
@@ -72,7 +84,11 @@ namespace WpfFungusApp.DBStore
         {
             get
             {
-                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>("SELECT * FROM \"tblConfiguration\" WHERE name='overwrite'").First();
+                DBObject.Configuration configuration = _database.Query<DBObject.Configuration>(
+                    UseTableNameFix ?
+                    "SELECT * FROM \"tblConfiguration\" WHERE name='overwrite'" :
+                    "SELECT * FROM tblConfiguration WHERE name='overwrite'"
+                    ).First();
                 return configuration != null ? configuration.value == "1" : false;
             }
             set

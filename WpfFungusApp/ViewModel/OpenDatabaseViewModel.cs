@@ -5,19 +5,18 @@ namespace WpfFungusApp.ViewModel
 {
     class OpenDatabaseViewModel : BaseViewModel
     {
-        public OpenDatabaseViewModel(IDatabaseConfiguration iDatabaseConfiguration)
+        public OpenDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
         {
             IDatabaseConfiguration = iDatabaseConfiguration;
-            // Warning warning
-            SelectedDatabaseProvider = DBStore.DatabaseProvider.SQLite;
 
             SqlServerInstances = new ObservableCollection<string>();
         }
 
-        public readonly IDatabaseConfiguration IDatabaseConfiguration;
+        public readonly Model.IDatabaseConfiguration IDatabaseConfiguration;
 
         public void Refresh()
         {
+            SqlServerInstances.Clear();
             System.Data.Sql.SqlDataSourceEnumerator instance = System.Data.Sql.SqlDataSourceEnumerator.Instance;
             System.Data.DataTable dataTable = instance.GetDataSources();
 
@@ -34,16 +33,15 @@ namespace WpfFungusApp.ViewModel
             SelectedSqlServerInstance = 0;
         }
 
-        private DBStore.DatabaseProvider _selectedDatabaseProvider;
         public DBStore.DatabaseProvider SelectedDatabaseProvider
         {
             get
             {
-                return _selectedDatabaseProvider;
+                return IDatabaseConfiguration.SelectedDatabaseProvider;
             }
             set
             {
-                _selectedDatabaseProvider = value;
+                IDatabaseConfiguration.SelectedDatabaseProvider = value;
                 NotifyPropertyChanged("SelectedDatabaseProvider");
             }
         }
@@ -244,11 +242,11 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        public string PostgreSQL_Host
+        public string PostgreSQL_IPAddress
         {
             get
             {
-                return IDatabaseConfiguration.PostgreSQL_Host;
+                return IDatabaseConfiguration.PostgreSQL_IPAddress;
             }
             set
             {
@@ -270,18 +268,18 @@ namespace WpfFungusApp.ViewModel
                             first = false;
                             text += shortVal.ToString("X");
                         }
-                        IDatabaseConfiguration.PostgreSQL_Host = text;
+                        IDatabaseConfiguration.PostgreSQL_IPAddress = text;
                     }
                     else
                     {
-                        IDatabaseConfiguration.PostgreSQL_Host = ipAddress.ToString();
+                        IDatabaseConfiguration.PostgreSQL_IPAddress = ipAddress.ToString();
                     }
                 }
                 catch
                 {
 
                 }
-                NotifyPropertyChanged("PostgreSQL_Host");
+                NotifyPropertyChanged("PostgreSQL_IPAddress");
             }
         }
 
@@ -298,11 +296,11 @@ namespace WpfFungusApp.ViewModel
                     IDatabaseConfiguration.PostgreSQL_UseIPv6 = value;
                     if (value)
                     {
-                        PostgreSQL_Host = "0:0:0:0:0:0:0:1";
+                        PostgreSQL_IPAddress = "0:0:0:0:0:0:0:1";
                     }
                     else
                     {
-                        PostgreSQL_Host = "127.0.0.1";
+                        PostgreSQL_IPAddress = "127.0.0.1";
                     }
                 }
                 NotifyPropertyChanged("PostgreSQL_UseIPv6");
@@ -374,6 +372,84 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        public string MySQL_IPAddress
+        {
+            get
+            {
+                return IDatabaseConfiguration.MySQL_IPAddress;
+            }
+            set
+            {
+                try
+                {
+                    System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse(value);
+                    if (MySQL_UseIPv6)
+                    {
+                        byte[] bytes = ipAddress.GetAddressBytes();
+                        bool first = true;
+                        string text = "";
+                        for (int index = 0; index < 16; index += 2)
+                        {
+                            if (!first)
+                            {
+                                text += ":";
+                            }
+                            short shortVal = (short)(bytes[index + 1] + (bytes[index] << 8));
+                            first = false;
+                            text += shortVal.ToString("X");
+                        }
+                        IDatabaseConfiguration.MySQL_IPAddress = text;
+                    }
+                    else
+                    {
+                        IDatabaseConfiguration.MySQL_IPAddress = ipAddress.ToString();
+                    }
+                }
+                catch
+                {
+
+                }
+                NotifyPropertyChanged("MySQL_IPAddress");
+            }
+        }
+
+        public bool MySQL_UseIPv6
+        {
+            get
+            {
+                return IDatabaseConfiguration.MySQL_UseIPv6;
+            }
+            set
+            {
+                if (IDatabaseConfiguration.MySQL_UseIPv6 != value)
+                {
+                    IDatabaseConfiguration.MySQL_UseIPv6 = value;
+                    if (value)
+                    {
+                        MySQL_IPAddress = "0:0:0:0:0:0:0:1";
+                    }
+                    else
+                    {
+                        MySQL_IPAddress = "127.0.0.1";
+                    }
+                }
+                NotifyPropertyChanged("MySQL_UseIPv6");
+            }
+        }
+
+        public ushort MySQL_Port
+        {
+            get
+            {
+                return IDatabaseConfiguration.MySQL_Port;
+            }
+            set
+            {
+                IDatabaseConfiguration.MySQL_Port = value;
+                NotifyPropertyChanged("MySQL_Port");
+            }
+        }
+
         public bool MySQL_UseWindowsAuthentication
         {
             get
@@ -410,6 +486,19 @@ namespace WpfFungusApp.ViewModel
             {
                 IDatabaseConfiguration.MySQL_Password = value;
                 NotifyPropertyChanged("MySQL_Password");
+            }
+        }
+
+        public string MySQL_DatabaseName
+        {
+            get
+            {
+                return IDatabaseConfiguration.MySQL_DatabaseName;
+            }
+            set
+            {
+                IDatabaseConfiguration.MySQL_DatabaseName = value;
+                NotifyPropertyChanged("MySQL_DatabaseName");
             }
         }
     }

@@ -163,10 +163,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
-                                         GroupName="SqlServerAuthentication"
                                          IsChecked="{Binding SQLServer_UseWindowsAuthentication}"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" Content="SQL Server Authentication" 
-                                         GroupName="SqlServerAuthentication"/>
+                                         IsChecked="{Binding SQLServer_UseWindowsAuthentication, Converter={StaticResource InverseBooleanConverter}}"/>
                             <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,0">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
@@ -244,13 +243,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
@@ -264,13 +259,12 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxPostgreSQLHost"  Text="{Binding PostgreSQL_IPAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding PostgreSQL_UseIPv6}" Content="IPv6"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
                         <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxPostgreSQLPort" Text="{Binding PostgreSQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Grid>
-
-                    <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -283,10 +277,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
-                                         GroupName="PostgreSQLAuthentication"
                                          IsChecked="{Binding PostgreSQL_UseWindowsAuthentication}"/>
                             <RadioButton Grid.Row="2" Grid.Column="0" Content="PostgreSQL Authentication" 
-                                         GroupName="PostgreSQLAuthentication"/>
+                                         IsChecked="{Binding PostgreSQL_UseWindowsAuthentication, Converter={StaticResource InverseBooleanConverter}}"/>
 
                             <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,0">
                                 <Grid.Style>
@@ -348,7 +341,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+                    <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="10"/>
@@ -362,27 +355,53 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="IP Address" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
-                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxMySQLHost"  Text="{Binding MySQL_Host, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" x:Name="_textBoxMySQLHost"  Text="{Binding MySQL_IPAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="275" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
                         <CheckBox Grid.Row="0" Grid.Column="4" IsChecked="{Binding MySQL_UseIPv6}" Content="IPv6"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="Port" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"/>
                         <TextBox Grid.Row="2" Grid.Column="2" x:Name="_textBoxMySQLPort" Text="{Binding MySQL_Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}"/>
                     </Grid>
                     <GroupBox Grid.Row="2" Grid.Column="0" Header="Server Logon" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
-                        <Grid >
+                        <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
-                            <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                            <RadioButton Grid.Row="0" Grid.Column="0" Content="Windows Authentication" 
+                                         IsChecked="{Binding MySQL_UseWindowsAuthentication}"/>
+                            <RadioButton Grid.Row="2" Grid.Column="0" Content="MySQL Authentication" 
+                                         IsChecked="{Binding MySQL_UseWindowsAuthentication, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                            <Grid Grid.Row="4" Grid.Column="0" Margin="20,0,0,0">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MySQL_UseWindowsAuthentication}" Value="True">
+                                                <Setter Property="IsEnabled" Value="false" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                                <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                            </Grid>
                         </Grid>
                     </GroupBox>
                     <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">

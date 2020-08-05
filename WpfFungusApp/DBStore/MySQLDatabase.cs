@@ -31,30 +31,21 @@ namespace WpfFungusApp.DBStore
         {
             // Connect to the master DB to create the requested database
 
-            string connectionString = MakeConnectionString(host, port, useWindowsAuthentication, userName, password, "postgres");
-            databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
-            databaseHost.Database.OpenSharedConnection();
-            databaseHost.Database.Execute(@"CREATE DATABASE " + dbName + @" WITH OWNER = postgres ENCODING = 'UTF8' CONNECTION LIMIT = -1;");
+            OpenDatabase(databaseHost, host, port, useWindowsAuthentication, userName, password, "MySql");
+
+            databaseHost.Database.Execute(@"CREATE DATABASE " + dbName);
             databaseHost.Database.CloseSharedConnection();
 
             // Connect to the new database
 
-            connectionString = MakeConnectionString(host, port, useWindowsAuthentication, userName, password, dbName);
-            databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
-            databaseHost.Database.OpenSharedConnection();
+            OpenDatabase(databaseHost, host, port, useWindowsAuthentication, userName, password, dbName);
         }
 
-        public static void OpenDatabase(IDatabaseHost databaseHost, string host, int port, bool useWindowsAuthentication, string userName, string password, string filepath)
+        public static void OpenDatabase(IDatabaseHost databaseHost, string host, int port, bool useWindowsAuthentication, string userName, string password, string dbName)
         {
-            string dbName = System.IO.Path.GetFileNameWithoutExtension(filepath);
             string connectionString = MakeConnectionString(host, port, useWindowsAuthentication, userName, password, dbName);
-            databaseHost.Database = new PetaPoco.Database(connectionString, "Npgsql");
+            databaseHost.Database = new PetaPoco.Database(connectionString, "MySql");
             databaseHost.Database.OpenSharedConnection();
-
-            databaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(databaseHost.Database);
-            databaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(databaseHost.Database);
-            databaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(databaseHost.Database);
-            databaseHost.IImageStore = new DBStore.SQLiteImageStore(databaseHost.Database);
         }
     }
 }

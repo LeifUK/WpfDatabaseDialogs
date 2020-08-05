@@ -4,6 +4,7 @@
     {
         public PostgreSQLConfigurationStore(PetaPoco.Database database) : base(database)
         {
+            UseTableNameFix = true;
         }
 
         public override void CreateTable()

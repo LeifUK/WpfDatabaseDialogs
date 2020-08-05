@@ -1,4 +1,4 @@
-﻿namespace WpfFungusApp.ViewModel
+﻿namespace WpfFungusApp.Model
 {
     interface IDatabaseConfiguration
     {

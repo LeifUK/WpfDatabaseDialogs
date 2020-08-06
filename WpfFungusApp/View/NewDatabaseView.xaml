@@ -189,7 +189,7 @@
                                 <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
                                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLServer_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLServer_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                                <PasswordBox Grid.Row="2" Grid.Column="2" x:Name="_passwordBoxSQLServer" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource PasswordBoxStyle}"/>
                             </Grid>                            
                         </Grid>
                     </GroupBox>
@@ -304,7 +304,7 @@
                                 <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
                                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PostgreSQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding PostgreSQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                                <PasswordBox Grid.Row="2" Grid.Column="2" x:Name="_passwordBoxPostgreSQL" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource PasswordBoxStyle}"/>
                             </Grid>
                         </Grid>
                     </GroupBox>
@@ -400,7 +400,7 @@
                                 <Label Grid.Row="0" Grid.Column="0" Content="User Name" HorizontalAlignment="Right"/>
                                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding MySQL_UserName}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
                                 <Label Grid.Row="2" Grid.Column="0" Content="Password" HorizontalAlignment="Right"/>
-                                <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding MySQL_Password}" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource TextBoxStyle}"/>
+                                <PasswordBox Grid.Row="2" Grid.Column="2" x:Name="_passwordBoxMySQL" HorizontalAlignment="Left" MinWidth="200" Style="{StaticResource PasswordBoxStyle}"/>
                             </Grid>
                         </Grid>
                     </GroupBox>

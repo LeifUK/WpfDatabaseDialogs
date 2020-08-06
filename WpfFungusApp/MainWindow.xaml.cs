@@ -36,15 +36,15 @@ namespace WpfFungusApp
 
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
-            Model.RegistryItemSerialiser registryItemSerialiser = new Model.RegistryItemSerialiser();
-            Model.DatabaseConfiguration databaseConfiguration = new Model.DatabaseConfiguration(registryItemSerialiser);
+            OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser();
+            OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration databaseConfiguration = new OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration(registryItemSerialiser);
             if (registryItemSerialiser.OpenKey())
             {
                 databaseConfiguration.Load();
             }
 
-            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = new ViewModel.OpenDatabaseViewModel(databaseConfiguration);
-            View.OpenDatabaseView openDatabaseView = new View.OpenDatabaseView();
+            OpenControls.Wpf.DatabaseDialogs.ViewModel.OpenDatabaseViewModel openDatabaseViewModel = new OpenControls.Wpf.DatabaseDialogs.ViewModel.OpenDatabaseViewModel(databaseConfiguration);
+            OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView openDatabaseView = new OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView();
             openDatabaseView.DataContext = openDatabaseViewModel;
             if (openDatabaseView.ShowDialog() != true)
             {
@@ -59,7 +59,7 @@ namespace WpfFungusApp
 
             try
             {
-                if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.SQLite)
+                if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.SQLite)
                 {
                     SQLiteDatabase.OpenDatabase(this, openDatabaseViewModel.SQLite_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
@@ -67,7 +67,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLiteImageStore(IDatabaseHost.Database);
                 }
-                else if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.MicrosoftSQLServer)
+                else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MicrosoftSQLServer)
                 {
                     string server = 
                         (openDatabaseViewModel.SqlServerInstances.Count > 0) ?
@@ -88,7 +88,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLServerImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLServerImageStore(IDatabaseHost.Database);
                 }
-                else if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.PostGreSQL)
+                else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.PostGreSQL)
                 {
                     PostgreSQLDatabase.OpenDatabase(this, openDatabaseViewModel.PostgreSQL_IPAddress, openDatabaseViewModel.PostgreSQL_Port, openDatabaseViewModel.PostgreSQL_UseWindowsAuthentication, openDatabaseViewModel.PostgreSQL_UserName, openDatabaseViewModel.PostgreSQL_Password, openDatabaseViewModel.PostgreSQL_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
@@ -96,7 +96,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
-                else if (openDatabaseViewModel.SelectedDatabaseProvider == DatabaseProvider.MySQL)
+                else if (openDatabaseViewModel.SelectedDatabaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MySQL)
                 {
                     MySQLDatabase.OpenDatabase(this, openDatabaseViewModel.MySQL_IPAddress, openDatabaseViewModel.MySQL_Port, openDatabaseViewModel.MySQL_UseWindowsAuthentication, openDatabaseViewModel.MySQL_UserName, openDatabaseViewModel.MySQL_Password, openDatabaseViewModel.MySQL_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.MySQLConfigurationStore(IDatabaseHost.Database);
@@ -120,15 +120,15 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            Model.RegistryItemSerialiser registryItemSerialiser = new Model.RegistryItemSerialiser();
-            Model.DatabaseConfiguration databaseConfiguration = new Model.DatabaseConfiguration(registryItemSerialiser);
+            OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser();
+            OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration databaseConfiguration = new OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration(registryItemSerialiser);
             if (registryItemSerialiser.OpenKey())
             {
                 databaseConfiguration.Load();
             }
 
-            ViewModel.NewDatabaseViewModel newDatabaseViewModel = new ViewModel.NewDatabaseViewModel(databaseConfiguration);
-            View.NewDatabaseView newDatabaseView = new View.NewDatabaseView();
+            OpenControls.Wpf.DatabaseDialogs.ViewModel.NewDatabaseViewModel newDatabaseViewModel = new OpenControls.Wpf.DatabaseDialogs.ViewModel.NewDatabaseViewModel(databaseConfiguration);
+            OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView newDatabaseView = new OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView();
             newDatabaseView.DataContext = newDatabaseViewModel;
             if (newDatabaseView.ShowDialog() != true)
             {
@@ -143,8 +143,8 @@ namespace WpfFungusApp
 
             try
             {
-                DatabaseProvider databaseProvider = (DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
-                if (databaseProvider == DatabaseProvider.SQLite)
+                OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider databaseProvider = (OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
+                if (databaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.SQLite)
                 {
                     SQLiteDatabase.CreateDatabase(this, newDatabaseViewModel.SQLite_Folder, newDatabaseViewModel.SQLite_Filename);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
@@ -152,7 +152,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLiteImageStore(IDatabaseHost.Database);
                 }
-                else if(databaseProvider == DatabaseProvider.MicrosoftSQLServer)
+                else if(databaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MicrosoftSQLServer)
                 {
                     string server =
                         (newDatabaseViewModel.SqlServerInstances.Count > 0) ?
@@ -171,7 +171,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLServerImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.SQLServerImageStore(IDatabaseHost.Database);
                 }
-                else if (databaseProvider == DatabaseProvider.PostGreSQL)
+                else if (databaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.PostGreSQL)
                 {
                     PostgreSQLDatabase.CreateDatabase(this, newDatabaseViewModel.PostgreSQL_IPAddress, newDatabaseViewModel.PostgreSQL_Port, newDatabaseViewModel.PostgreSQL_UseWindowsAuthentication, newDatabaseViewModel.PostgreSQL_UserName, newDatabaseViewModel.PostgreSQL_Password, newDatabaseViewModel.PostgreSQL_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.PostgreSQLConfigurationStore(IDatabaseHost.Database);
@@ -179,7 +179,7 @@ namespace WpfFungusApp
                     IDatabaseHost.IImagePathsStore = new DBStore.PostgreSQLImagePathsStore(IDatabaseHost.Database);
                     IDatabaseHost.IImageStore = new DBStore.PostgreSQLImageStore(IDatabaseHost.Database);
                 }
-                else if (databaseProvider == DatabaseProvider.MySQL)
+                else if (databaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.MySQL)
                 {
                     MySQLDatabase.CreateDatabase(this, newDatabaseViewModel.MySQL_IPAddress, newDatabaseViewModel.MySQL_Port, newDatabaseViewModel.MySQL_UseWindowsAuthentication, newDatabaseViewModel.MySQL_UserName, newDatabaseViewModel.MySQL_Password, newDatabaseViewModel.MySQL_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.MySQLConfigurationStore(IDatabaseHost.Database);

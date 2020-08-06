@@ -131,11 +131,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\DatabaseConfiguration.cs" />
-    <Compile Include="Model\IConfigurationSerialiser.cs" />
-    <Compile Include="Model\IDatabaseConfiguration.cs" />
     <Compile Include="DBStore\ConfigurationStore.cs" />
-    <Compile Include="DBStore\DatabaseProvider.cs" />
     <Compile Include="DBStore\IConfigurationStore.cs" />
     <Compile Include="DBStore\IDatabaseHost.cs" />
     <Compile Include="DBStore\IImagePathsStore.cs" />
@@ -171,23 +167,11 @@
     <Compile Include="Export\PageWriterFungusGroups.cs" />
     <Compile Include="Export\PageWriterFungusList.cs" />
     <Compile Include="Export\PageWriterPhotoIndex.cs" />
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="Model\RegistryItemSerialiser.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
-    <Compile Include="ViewModel\OpenDatabaseViewModel.cs" />
-    <Compile Include="ViewModel\NewDatabaseViewModel.cs" />
     <Compile Include="ViewModel\SpeciesListViewModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />
     <Compile Include="View\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\EnumComparisonConverter .cs" />
-    <Compile Include="View\InverseBooleanConverter.cs" />
-    <Compile Include="View\NewDatabaseView.xaml.cs">
-      <DependentUpon>NewDatabaseView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\OpenDatabaseView.xaml.cs">
-      <DependentUpon>OpenDatabaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SpeciesListView.xaml.cs">
       <DependentUpon>SpeciesListView.xaml</DependentUpon>
@@ -214,18 +198,6 @@
     <Page Include="View\ConfigurationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\NewDatabaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="View\OpenDatabaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SpeciesListView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -263,7 +235,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OpenControls.Wpf.DatabaseDialogs\OpenControls.Wpf.DatabaseDialogs.csproj">
+      <Project>{0aa60763-2948-40fb-8ba4-8481e54625f3}</Project>
+      <Name>OpenControls.Wpf.DatabaseDialogs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.113.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.113.1\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -5,7 +5,7 @@ using WpfFungusApp.DBStore;
 
 namespace WpfFungusApp.ViewModel
 {
-    internal class SpeciesListViewModel : BaseViewModel
+    internal class SpeciesListViewModel : OpenControls.Wpf.DatabaseDialogs.ViewModel.BaseViewModel
     {
         public SpeciesListViewModel(IDatabaseHost iDatabaseHost)
         {

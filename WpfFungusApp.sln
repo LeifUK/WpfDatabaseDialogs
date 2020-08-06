@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFungusApp", "WpfFungusApp\WpfFungusApp.csproj", "{74C2DCF2-8495-4772-B790-F1299D0C33F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenControls.Wpf.DatabaseDialogs", "OpenControls.Wpf.DatabaseDialogs\OpenControls.Wpf.DatabaseDialogs.csproj", "{0AA60763-2948-40FB-8BA4-8481E54625F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{74C2DCF2-8495-4772-B790-F1299D0C33F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74C2DCF2-8495-4772-B790-F1299D0C33F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74C2DCF2-8495-4772-B790-F1299D0C33F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA60763-2948-40FB-8BA4-8481E54625F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA60763-2948-40FB-8BA4-8481E54625F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA60763-2948-40FB-8BA4-8481E54625F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA60763-2948-40FB-8BA4-8481E54625F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace WpfFungusApp.ViewModel
+namespace OpenControls.Wpf.DatabaseDialogs.ViewModel
 {
-    class NewDatabaseViewModel : BaseViewModel
+    public class NewDatabaseViewModel : BaseViewModel
     {
         public NewDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
         {
@@ -32,7 +32,7 @@ namespace WpfFungusApp.ViewModel
             SelectedSqlServerInstance = 0;
         }
 
-        public DBStore.DatabaseProvider SelectedDatabaseProvider
+        public Model.DatabaseProvider SelectedDatabaseProvider
         {
             get
             {

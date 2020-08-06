@@ -12,7 +12,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="View/Dictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/OpenControls.Wpf.DatabaseDialogs;component/View/Dictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

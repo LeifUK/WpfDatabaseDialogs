@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using WpfFungusApp.DBObject;
+﻿using WpfFungusApp.DBObject;
 
 namespace WpfFungusApp.ViewModel
 {
-    class ConfigurationViewModel : BaseViewModel
+    class ConfigurationViewModel : OpenControls.Wpf.DatabaseDialogs.ViewModel.BaseViewModel
     {
         public ConfigurationViewModel(DBStore.IDatabaseHost iDatabaseHost)
         {

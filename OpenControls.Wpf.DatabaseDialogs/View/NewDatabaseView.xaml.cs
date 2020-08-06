@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WpfFungusApp.View
+namespace OpenControls.Wpf.DatabaseDialogs.View
 {
     /// <summary>
     /// Interaction logic for SqlConnectionDialog.xaml

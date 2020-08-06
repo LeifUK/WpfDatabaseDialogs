@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace WpfFungusApp.ViewModel
+namespace OpenControls.Wpf.DatabaseDialogs.ViewModel
 {
-    class NewDatabaseViewModel : BaseViewModel
+    public class OpenDatabaseViewModel : BaseViewModel
     {
-        public NewDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
+        public OpenDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
         {
             IDatabaseConfiguration = iDatabaseConfiguration;
+
             SqlServerInstances = new ObservableCollection<string>();
         }
 
@@ -32,7 +33,7 @@ namespace WpfFungusApp.ViewModel
             SelectedSqlServerInstance = 0;
         }
 
-        public DBStore.DatabaseProvider SelectedDatabaseProvider
+        public Model.DatabaseProvider SelectedDatabaseProvider
         {
             get
             {
@@ -59,19 +60,6 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        public string SQLite_Folder
-        {
-            get
-            {
-                return IDatabaseConfiguration.SQLite_Folder;
-            }
-            set
-            {
-                IDatabaseConfiguration.SQLite_Folder = value;
-                NotifyPropertyChanged("SQLite_Folder");
-            }
-        }
-
         public string SQLite_Filename
         {
             get
@@ -82,6 +70,19 @@ namespace WpfFungusApp.ViewModel
             {
                 IDatabaseConfiguration.SQLite_Filename = value;
                 NotifyPropertyChanged("SQLite_Filename");
+            }
+        }
+
+        public bool SQLServer_UseLocalServer
+        {
+            get
+            {
+                return IDatabaseConfiguration.SQLServer_UseLocalServer;
+            }
+            set
+            {
+                IDatabaseConfiguration.SQLServer_UseLocalServer = value;
+                NotifyPropertyChanged("SQLServer_UseLocalServer");
             }
         }
 
@@ -98,6 +99,84 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
+        public string SQLServer_IPAddress
+        {
+            get
+            {
+                return IDatabaseConfiguration.SQLServer_IPAddress;
+            }
+            set
+            {
+                try
+                {
+                    System.Net.IPAddress ipAddress = System.Net.IPAddress.Parse(value);
+                    if (SQLServer_UseIPv6)
+                    {
+                        byte[] bytes = ipAddress.GetAddressBytes();
+                        bool first = true;
+                        string text = "";
+                        for (int index = 0; index < 16; index += 2)
+                        {
+                            if (!first)
+                            {
+                                text += ":";
+                            }
+                            short shortVal = (short)(bytes[index + 1] + (bytes[index] << 8));
+                            first = false;
+                            text += shortVal.ToString("X");
+                        }
+                        IDatabaseConfiguration.SQLServer_IPAddress = text;
+                    }
+                    else
+                    {
+                        IDatabaseConfiguration.SQLServer_IPAddress = ipAddress.ToString();
+                    }
+                }
+                catch
+                {
+
+                }
+                NotifyPropertyChanged("SQLServer_IPAddress");
+            }
+        }
+
+        public bool SQLServer_UseIPv6
+        {
+            get
+            {
+                return IDatabaseConfiguration.SQLServer_UseIPv6;
+            }
+            set
+            {
+                if (IDatabaseConfiguration.SQLServer_UseIPv6 != value)
+                {
+                    IDatabaseConfiguration.SQLServer_UseIPv6 = value;
+                    if (value)
+                    {
+                        SQLServer_IPAddress = "0:0:0:0:0:0:0:1";
+                    }
+                    else
+                    {
+                        SQLServer_IPAddress = "127.0.0.1";
+                    }
+                }
+                NotifyPropertyChanged("SQLServer_UseIPv6");
+            }
+        }
+
+        public ushort SQLServer_Port
+        {
+            get
+            {
+                return IDatabaseConfiguration.SQLServer_Port;
+            }
+            set
+            {
+                IDatabaseConfiguration.SQLServer_Port = value;
+                NotifyPropertyChanged("SQLServer_Port");
+            }
+        }
+
         public bool SQLServer_UseWindowsAuthentication
         {
             get
@@ -110,7 +189,7 @@ namespace WpfFungusApp.ViewModel
                 NotifyPropertyChanged("SQLServer_UseWindowsAuthentication");
             }
         }
-
+        
         public string SQLServer_UserName
         {
             get
@@ -150,16 +229,16 @@ namespace WpfFungusApp.ViewModel
             }
         }
 
-        public string SQLServer_Filename
+        public string SQLServer_DatabaseName
         {
             get
             {
-                return IDatabaseConfiguration.SQLServer_Filename;
+                return IDatabaseConfiguration.SQLServer_DatabaseName;
             }
             set
             {
-                IDatabaseConfiguration.SQLServer_Filename = value;
-                NotifyPropertyChanged("SQLServer_Filename");
+                IDatabaseConfiguration.SQLServer_DatabaseName = value;
+                NotifyPropertyChanged("SQLServer_DatabaseName");
             }
         }
 

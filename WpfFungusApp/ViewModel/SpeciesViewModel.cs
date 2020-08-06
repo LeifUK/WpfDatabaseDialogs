@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace WpfFungusApp.ViewModel
 {
-    internal class SpeciesViewModel : BaseViewModel
+    internal class SpeciesViewModel : OpenControls.Wpf.DatabaseDialogs.ViewModel.BaseViewModel
     {
         public SpeciesViewModel(DBStore.IConfigurationStore iConfigurationStore, DBObject.Species species)
         {

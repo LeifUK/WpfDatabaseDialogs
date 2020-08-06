@@ -116,49 +116,6 @@ namespace WpfFungusApp.View
 
         private void _buttonExportHTML_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SpeciesListViewModel speciesListViewModel = DataContext as ViewModel.SpeciesListViewModel;
-
-            string exportFolder = speciesListViewModel.IDatabaseHost.IConfigurationStore.ExportFolder;
-            bool overwriteImages = speciesListViewModel.IDatabaseHost.IConfigurationStore.OverwriteImages;
-
-            List<DBObject.Species> listSpecies = speciesListViewModel.SpeciesCollection.Select(n => n as DBObject.Species).ToList();
-            foreach (DBObject.Species species in listSpecies)
-            {
-                speciesListViewModel.LoadImages(species);
-            }
-
-            string filename = System.IO.Path.Combine(exportFolder, "Fungi.html");
-            Export.PageWriterFungusList pageWriterFungusList = new Export.PageWriterFungusList(filename);
-            pageWriterFungusList.WritePage(
-                overwriteImages,
-                exportFolder,
-                "A Photographic Guide To The Fungi of Southern England",
-                listSpecies,
-                false);
-            pageWriterFungusList.Close();
-
-            filename = System.IO.Path.Combine(exportFolder, "CommonFungi.html");
-            pageWriterFungusList.Open(filename);
-            pageWriterFungusList.WritePage(
-                overwriteImages,
-                exportFolder,
-                "Common Fungi of Southern England",
-                listSpecies,
-                true);
-            pageWriterFungusList.Close();
-
-            filename = System.IO.Path.Combine(exportFolder, "FungiByGroup.html");
-            Export.PageWriterFungusGroups pageWriterFungusGroups = new Export.PageWriterFungusGroups(filename, listSpecies);
-            pageWriterFungusGroups.WritePage("A Photographic Guide To The Fungi of Southern England", false);
-            pageWriterFungusGroups.Close();
-
-            filename = System.IO.Path.Combine(exportFolder, "CommonFungiByGroup.html");
-            pageWriterFungusGroups = new Export.PageWriterFungusGroups(filename, listSpecies);
-            pageWriterFungusGroups.WritePage("Common Fungi of Southern England", true);
-            pageWriterFungusGroups.Close();
-
-            Export.PageWriterPhotoIndex pageWriterPhotoIndex = new Export.PageWriterPhotoIndex(listSpecies);
-            pageWriterPhotoIndex.WritePhotoIndex(exportFolder);
         }
     }
 }

@@ -4,7 +4,12 @@ namespace OpenControls.Wpf.DatabaseDialogs.Model
 {
     public class RegistryItemSerialiser : IConfigurationSerialiser
     {
-        private string _keyPath = System.Environment.Is64BitOperatingSystem ? @"SOFTWARE\Wow6432Node\WpfFungusApp\DatabaseSettings" : @"SOFTWARE\WpfFungusApp\DatabaseSettings";
+        public RegistryItemSerialiser(string keyPath)
+        {
+            _keyPath = keyPath;
+        }
+
+        private readonly string _keyPath;
 
         public bool OpenKey()
         {
@@ -35,32 +40,6 @@ namespace OpenControls.Wpf.DatabaseDialogs.Model
             return CurrentRegistryKey != null;
         }
 
-        private static T LoadRegistryEntry<T>(Microsoft.Win32.RegistryKey key, string name, T value)
-        {
-            if (key != null)
-            {
-                object obj = key.GetValue(name);
-                if (obj != null)
-                {
-                    try
-                    {
-                        if (typeof(T).IsEnum)
-                        {
-                            obj = Enum.Parse(typeof(T), obj as string);
-                        }
-                        
-                        value = (T)Convert.ChangeType(obj, typeof(T));
-                    }
-                    catch
-                    {
-                        // Fall through
-                    }
-                }
-            }
-
-            return value;
-        }
-
         private Microsoft.Win32.RegistryKey CurrentRegistryKey { get; set; }
 
         #region Model.IConfigurationSerialiser
@@ -73,9 +52,30 @@ namespace OpenControls.Wpf.DatabaseDialogs.Model
             }
         }
 
-        public T ReadEntry<T>(string name, T defaultValue)
+        public T ReadEntry<T>(string name, T value)
         {
-            return LoadRegistryEntry<T>(CurrentRegistryKey, name, defaultValue);
+            if (CurrentRegistryKey != null)
+            {
+                object obj = CurrentRegistryKey.GetValue(name);
+                if (obj != null)
+                {
+                    try
+                    {
+                        if (typeof(T).IsEnum)
+                        {
+                            obj = Enum.Parse(typeof(T), obj as string);
+                        }
+
+                        value = (T)Convert.ChangeType(obj, typeof(T));
+                    }
+                    catch
+                    {
+                        // Fall through
+                    }
+                }
+            }
+
+            return value;
         }
 
         #endregion Model.IConfigurationSerialiser

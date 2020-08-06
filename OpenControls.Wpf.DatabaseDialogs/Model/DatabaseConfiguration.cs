@@ -2,7 +2,7 @@
 {
     public class DatabaseConfiguration : IDatabaseConfiguration
     {
-        public DatabaseConfiguration(IConfigurationSerialiser iConfigurationSerialiser)
+        public DatabaseConfiguration(OpenControls.Wpf.Serialisation.IConfigurationSerialiser iConfigurationSerialiser)
         {
             IConfigurationSerialiser = iConfigurationSerialiser;
             SelectedDatabaseProvider = Model.DatabaseProvider.SQLite;
@@ -25,7 +25,7 @@
             MySQL_UseWindowsAuthentication = true;
         }
         
-        public readonly IConfigurationSerialiser IConfigurationSerialiser;
+        public readonly OpenControls.Wpf.Serialisation.IConfigurationSerialiser IConfigurationSerialiser;
 
         public void Load()
         {

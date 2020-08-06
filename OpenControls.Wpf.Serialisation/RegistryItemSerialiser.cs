@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenControls.Wpf.DatabaseDialogs.Model
+namespace OpenControls.Wpf.Serialisation
 {
     public class RegistryItemSerialiser : IConfigurationSerialiser
     {

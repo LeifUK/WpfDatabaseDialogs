@@ -240,6 +240,10 @@
       <Project>{0aa60763-2948-40fb-8ba4-8481e54625f3}</Project>
       <Name>OpenControls.Wpf.DatabaseDialogs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenControls.Wpf.Serialisation\OpenControls.Wpf.Serialisation.csproj">
+      <Project>{862f0b90-10d6-4ae3-a19c-490ec3576c7b}</Project>
+      <Name>OpenControls.Wpf.Serialisation</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />

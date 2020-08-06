@@ -34,9 +34,11 @@ namespace WpfFungusApp
             speciesListView._datagrid.Columns[0].Visibility = Visibility.Collapsed;
         }
 
+        private string _keyPath = System.Environment.Is64BitOperatingSystem ? @"SOFTWARE\Wow6432Node\WpfFungusApp\DatabaseSettings" : @"SOFTWARE\WpfFungusApp\DatabaseSettings";
+
         private void _buttonOpenDatabase_Click(object sender, RoutedEventArgs e)
         {
-            OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser();
+            OpenControls.Wpf.Serialisation.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.Serialisation.RegistryItemSerialiser(_keyPath);
             OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration databaseConfiguration = new OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration(registryItemSerialiser);
             if (registryItemSerialiser.OpenKey())
             {
@@ -120,7 +122,7 @@ namespace WpfFungusApp
 
         private void _buttonNewDatabase_Click(object sender, RoutedEventArgs e)
         {
-            OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.DatabaseDialogs.Model.RegistryItemSerialiser();
+            OpenControls.Wpf.Serialisation.RegistryItemSerialiser registryItemSerialiser = new OpenControls.Wpf.Serialisation.RegistryItemSerialiser(_keyPath);
             OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration databaseConfiguration = new OpenControls.Wpf.DatabaseDialogs.Model.DatabaseConfiguration(registryItemSerialiser);
             if (registryItemSerialiser.OpenKey())
             {

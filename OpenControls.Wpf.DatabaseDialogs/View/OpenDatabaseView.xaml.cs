@@ -12,6 +12,17 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenDatabaseViewModel openDatabaseViewModel = DataContext as ViewModel.OpenDatabaseViewModel;
+            if (openDatabaseViewModel.IDatabaseConfiguration.SavePassword)
+            {
+                _passwordBoxSQLServer.Password = openDatabaseViewModel.SQLServer_Password;
+                _passwordBoxPostgreSQL.Password = openDatabaseViewModel.PostgreSQL_Password;
+                _passwordBoxMySQL.Password = openDatabaseViewModel.MySQL_Password;
+            }
+        }
+
         private void _buttonBrowseSQLiteDatabases_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();

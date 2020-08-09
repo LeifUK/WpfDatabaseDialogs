@@ -29,6 +29,7 @@
 
         public void Load()
         {
+            SavePassword = IConfigurationSerialiser.ReadEntry<bool>("SavePassword", SavePassword);
             SelectedDatabaseProvider = IConfigurationSerialiser.ReadEntry<Model.DatabaseProvider>("SelectedDatabaseProvider", SelectedDatabaseProvider);
             SQLite_Folder = IConfigurationSerialiser.ReadEntry<string>("SQLite_Folder", SQLite_Folder);
             SQLite_Filename = IConfigurationSerialiser.ReadEntry<string>("SQLite_Filename", SQLite_Filename);
@@ -37,6 +38,11 @@
             SQLServer_UseIPv6 = IConfigurationSerialiser.ReadEntry<bool>("SQLServer_UseIPv6", SQLServer_UseIPv6);
             SQLServer_Port = IConfigurationSerialiser.ReadEntry<ushort>("SQLServer_Port", SQLServer_Port);
             SQLServer_UseWindowsAuthentication = IConfigurationSerialiser.ReadEntry<bool>("SQLServer_UseWindowsAuthentication", SQLServer_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                SQLServer_UserName = IConfigurationSerialiser.ReadEntry<string>("SQLServer_UserName", SQLServer_UserName);
+                SQLServer_Password = IConfigurationSerialiser.ReadEntry<string>("SQLServer_Password", SQLServer_Password);
+            }
             SQLServer_Folder = IConfigurationSerialiser.ReadEntry<string>("SQLServer_Folder", SQLServer_Folder);
             SQLServer_Filename = IConfigurationSerialiser.ReadEntry<string>("SQLServer_Filename", SQLServer_Filename);
             SQLServer_DatabaseName = IConfigurationSerialiser.ReadEntry<string>("SQLServer_DatabaseName", SQLServer_DatabaseName);
@@ -44,16 +50,27 @@
             PostgreSQL_UseIPv6 = IConfigurationSerialiser.ReadEntry<bool>("PostgreSQL_UseIPv6", PostgreSQL_UseIPv6);
             PostgreSQL_Port = IConfigurationSerialiser.ReadEntry<ushort>("PostgreSQL_Port", PostgreSQL_Port);
             PostgreSQL_UseWindowsAuthentication = IConfigurationSerialiser.ReadEntry<bool>("PostgreSQL_UseWindowsAuthentication", PostgreSQL_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                PostgreSQL_UserName = IConfigurationSerialiser.ReadEntry<string>("PostgreSQL_UserName", PostgreSQL_UserName);
+                PostgreSQL_Password = IConfigurationSerialiser.ReadEntry<string>("PostgreSQL_Password", PostgreSQL_Password);
+            }
             PostgreSQL_DatabaseName = IConfigurationSerialiser.ReadEntry<string>("PostgreSQL_DatabaseName", PostgreSQL_DatabaseName);
             MySQL_IPAddress = IConfigurationSerialiser.ReadEntry<string>("MySQL_IPAddress", MySQL_IPAddress);
             MySQL_UseIPv6 = IConfigurationSerialiser.ReadEntry<bool>("MySQL_UseIPv6", MySQL_UseIPv6);
             MySQL_Port = IConfigurationSerialiser.ReadEntry<ushort>("MySQL_Port", MySQL_Port);
             MySQL_UseWindowsAuthentication = IConfigurationSerialiser.ReadEntry<bool>("MySQL_UseWindowsAuthentication", MySQL_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                MySQL_UserName = IConfigurationSerialiser.ReadEntry<string>("MySQL_UserName", MySQL_UserName);
+                MySQL_Password = IConfigurationSerialiser.ReadEntry<string>("MySQL_Password", MySQL_Password);
+            }
             MySQL_DatabaseName = IConfigurationSerialiser.ReadEntry<string>("MySQL_DatabaseName", MySQL_DatabaseName);
         }
 
         public void Save()
         {
+            IConfigurationSerialiser.WriteEntry<bool>("SavePassword", SavePassword);
             IConfigurationSerialiser.WriteEntry<Model.DatabaseProvider>("SelectedDatabaseProvider", SelectedDatabaseProvider);
             IConfigurationSerialiser.WriteEntry<string>("SQLite_Folder", SQLite_Folder);
             IConfigurationSerialiser.WriteEntry<string>("SQLite_Folder", SQLite_Folder);
@@ -63,6 +80,11 @@
             IConfigurationSerialiser.WriteEntry<bool>("SQLServer_UseIPv6", SQLServer_UseIPv6);
             IConfigurationSerialiser.WriteEntry<ushort>("SQLServer_Port", SQLServer_Port);
             IConfigurationSerialiser.WriteEntry<bool>("SQLServer_UseWindowsAuthentication", SQLServer_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                IConfigurationSerialiser.WriteEntry<string>("SQLServer_UserName", SQLServer_UserName);
+                IConfigurationSerialiser.WriteEntry<string>("SQLServer_Password", SQLServer_Password);
+            }
             IConfigurationSerialiser.WriteEntry<string>("SQLServer_Folder", SQLServer_Folder);
             IConfigurationSerialiser.WriteEntry<string>("SQLServer_Filename", SQLServer_Filename);
             IConfigurationSerialiser.WriteEntry<string>("SQLServer_DatabaseName", SQLServer_DatabaseName);
@@ -70,15 +92,27 @@
             IConfigurationSerialiser.WriteEntry<bool>("PostgreSQL_UseIPv6", PostgreSQL_UseIPv6);
             IConfigurationSerialiser.WriteEntry<ushort>("PostgreSQL_Port", PostgreSQL_Port);
             IConfigurationSerialiser.WriteEntry<bool>("PostgreSQL_UseWindowsAuthentication", PostgreSQL_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                IConfigurationSerialiser.WriteEntry<string>("PostgreSQL_UserName", PostgreSQL_UserName);
+                IConfigurationSerialiser.WriteEntry<string>("PostgreSQL_Password", PostgreSQL_Password);
+            }
             IConfigurationSerialiser.WriteEntry<string>("PostgreSQL_DatabaseName", PostgreSQL_DatabaseName);
             IConfigurationSerialiser.WriteEntry<string>("MySQL_IPAddress", MySQL_IPAddress);
             IConfigurationSerialiser.WriteEntry<bool>("MySQL_UseIPv6", MySQL_UseIPv6);
             IConfigurationSerialiser.WriteEntry<ushort>("MySQL_Port", MySQL_Port);
             IConfigurationSerialiser.WriteEntry<bool>("MySQL_UseWindowsAuthentication", MySQL_UseWindowsAuthentication);
+            if (SavePassword)
+            {
+                IConfigurationSerialiser.WriteEntry<string>("MySQL_UserName", MySQL_UserName);
+                IConfigurationSerialiser.WriteEntry<string>("MySQL_Password", MySQL_Password);
+            }
             IConfigurationSerialiser.WriteEntry<string>("MySQL_DatabaseName", MySQL_DatabaseName);
         }
 
         #region IDatabaseConfiguration
+        
+        public bool SavePassword { get; set; }
 
         public Model.DatabaseProvider SelectedDatabaseProvider { get; set; }
         public string SQLite_Folder { get; set; }

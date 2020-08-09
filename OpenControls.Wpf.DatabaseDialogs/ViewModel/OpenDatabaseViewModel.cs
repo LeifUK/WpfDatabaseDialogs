@@ -8,8 +8,23 @@ namespace OpenControls.Wpf.DatabaseDialogs.ViewModel
         public OpenDatabaseViewModel(Model.IDatabaseConfiguration iDatabaseConfiguration)
         {
             IDatabaseConfiguration = iDatabaseConfiguration;
+            Title = "Open Database";
 
             SqlServerInstances = new ObservableCollection<string>();
+        }
+
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                NotifyPropertyChanged("Title");
+            }
         }
 
         public readonly Model.IDatabaseConfiguration IDatabaseConfiguration;
@@ -31,6 +46,19 @@ namespace OpenControls.Wpf.DatabaseDialogs.ViewModel
             }
 
             SelectedSqlServerInstance = 0;
+        }
+
+        public bool SavePassword
+        {
+            get
+            {
+                return IDatabaseConfiguration.SavePassword;
+            }
+            set
+            {
+                IDatabaseConfiguration.SavePassword = value;
+                NotifyPropertyChanged("SavePassword");
+            }
         }
 
         public Model.DatabaseProvider SelectedDatabaseProvider

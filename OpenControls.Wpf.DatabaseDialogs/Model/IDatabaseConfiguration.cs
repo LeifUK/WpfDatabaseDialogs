@@ -4,6 +4,8 @@
     {
         Model.DatabaseProvider SelectedDatabaseProvider { get; set; }
 
+        bool SavePassword { get; set; }
+
         string SQLite_Folder { get; set; }
         string SQLite_Filename { get; set; }
 

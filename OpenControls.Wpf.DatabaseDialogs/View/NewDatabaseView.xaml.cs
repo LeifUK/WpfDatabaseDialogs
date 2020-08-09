@@ -12,6 +12,17 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
+            if (newDatabaseViewModel.IDatabaseConfiguration.SavePassword)
+            {
+                _passwordBoxSQLServer.Password = newDatabaseViewModel.SQLServer_Password;
+                _passwordBoxPostgreSQL.Password = newDatabaseViewModel.PostgreSQL_Password;
+                _passwordBoxMySQL.Password = newDatabaseViewModel.MySQL_Password;
+            }
+        }
+
         private void _buttonRefresh_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;

@@ -170,6 +170,12 @@
     <Compile Include="DBStore\SQLServerImageStore.cs" />
     <Compile Include="DBStore\MySQLSpeciesStore.cs" />
     <Compile Include="DBStore\SQLServerSpeciesStore.cs" />
+    <Compile Include="Export\FungalGenusGroups.cs" />
+    <Compile Include="Export\PageWriterBase.cs" />
+    <Compile Include="Export\PageWriterFungus.cs" />
+    <Compile Include="Export\PageWriterFungusGroups.cs" />
+    <Compile Include="Export\PageWriterFungusList.cs" />
+    <Compile Include="Export\PageWriterPhotoIndex.cs" />
     <Compile Include="ViewModel\ConfigurationViewModel.cs" />
     <Compile Include="ViewModel\SpeciesListViewModel.cs" />
     <Compile Include="ViewModel\SpeciesViewModel.cs" />

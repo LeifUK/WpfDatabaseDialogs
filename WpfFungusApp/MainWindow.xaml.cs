@@ -46,7 +46,8 @@ namespace WpfFungusApp
             }
 
             OpenControls.Wpf.DatabaseDialogs.ViewModel.OpenDatabaseViewModel openDatabaseViewModel = new OpenControls.Wpf.DatabaseDialogs.ViewModel.OpenDatabaseViewModel(databaseConfiguration);
-            OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView openDatabaseView = new OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView();
+            OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView openDatabaseView = 
+                new OpenControls.Wpf.DatabaseDialogs.View.OpenDatabaseView(new OpenControls.Wpf.DatabaseDialogs.Model.Encryption());
             openDatabaseView.DataContext = openDatabaseViewModel;
             if (openDatabaseView.ShowDialog() != true)
             {
@@ -130,7 +131,8 @@ namespace WpfFungusApp
             }
 
             OpenControls.Wpf.DatabaseDialogs.ViewModel.NewDatabaseViewModel newDatabaseViewModel = new OpenControls.Wpf.DatabaseDialogs.ViewModel.NewDatabaseViewModel(databaseConfiguration);
-            OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView newDatabaseView = new OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView();
+            OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView newDatabaseView = 
+                new OpenControls.Wpf.DatabaseDialogs.View.NewDatabaseView(new OpenControls.Wpf.DatabaseDialogs.Model.Encryption());
             newDatabaseView.DataContext = newDatabaseViewModel;
             if (newDatabaseView.ShowDialog() != true)
             {

@@ -71,7 +71,7 @@
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static Model:DatabaseProvider.SQLite}}"/>
 
-                    <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,10,10" >
+                    <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,0,10" >
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Style.Triggers>
@@ -122,9 +122,8 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <GroupBox Grid.Row="0" Grid.Column="0" Header="Server Instance" Margin="0" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
+                    <GroupBox Grid.Row="0" Grid.Column="0" Header="Server Instance" Padding="10" HorizontalAlignment="Left" Style="{StaticResource GroupBoxStyle}">
                         <Grid Grid.Row="0" Grid.Column="0" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -139,7 +138,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Row="0" Grid.Column="0" x:Name="_localButtonRemote" Grid.ColumnSpan="2" Content="Local" IsChecked="{Binding SQLServer_UseLocalServer}"/>
-                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="20,0">
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="20,0,0,0">
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Style.Triggers>
@@ -155,7 +154,7 @@
                             </StackPanel>
 
                             <RadioButton Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="_radioButtonRemote" Content="Remote" IsChecked="{Binding SQLServer_UseLocalServer, Converter={StaticResource InverseBooleanConverter}}"/>
-                            <Grid Grid.Row="6" Grid.Column="1" Margin="20,0">
+                            <Grid Grid.Row="6" Grid.Column="1" Margin="20,0,0,0">
                                 <Grid.Style>
                                     <Style TargetType="Grid">
                                         <Style.Triggers>
@@ -267,7 +266,6 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.RowDefinitions>

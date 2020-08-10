@@ -7,19 +7,31 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
     /// </summary>
     public partial class NewDatabaseView : Window
     {
-        public NewDatabaseView()
+        public NewDatabaseView(Model.IEncryption iEncryption)
         {
+            IEncryption = iEncryption;
             InitializeComponent();
         }
+
+        private readonly Model.IEncryption IEncryption;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
             if (newDatabaseViewModel.IDatabaseConfiguration.SavePassword)
             {
-                _passwordBoxSQLServer.Password = newDatabaseViewModel.SQLServer_Password;
-                _passwordBoxPostgreSQL.Password = newDatabaseViewModel.PostgreSQL_Password;
-                _passwordBoxMySQL.Password = newDatabaseViewModel.MySQL_Password;
+                if (IEncryption != null)
+                {
+                    _passwordBoxSQLServer.Password = IEncryption.Decrypt(newDatabaseViewModel.SQLServer_Password);
+                    _passwordBoxPostgreSQL.Password = IEncryption.Decrypt(newDatabaseViewModel.PostgreSQL_Password);
+                    _passwordBoxMySQL.Password = IEncryption.Decrypt(newDatabaseViewModel.MySQL_Password);
+                }
+                else
+                {
+                    _passwordBoxSQLServer.Password = newDatabaseViewModel.SQLServer_Password;
+                    _passwordBoxPostgreSQL.Password = newDatabaseViewModel.PostgreSQL_Password;
+                    _passwordBoxMySQL.Password = newDatabaseViewModel.MySQL_Password;
+                }
             }
         }
 
@@ -64,9 +76,18 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
         private void _buttonOK_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
-            newDatabaseViewModel.SQLServer_Password = _passwordBoxSQLServer.Password;
-            newDatabaseViewModel.PostgreSQL_Password = _passwordBoxPostgreSQL.Password;
-            newDatabaseViewModel.MySQL_Password = _passwordBoxMySQL.Password;
+            if (IEncryption != null)
+            {
+                newDatabaseViewModel.SQLServer_Password = IEncryption.Encrypt(_passwordBoxSQLServer.Password);
+                newDatabaseViewModel.PostgreSQL_Password = IEncryption.Encrypt(_passwordBoxPostgreSQL.Password);
+                newDatabaseViewModel.MySQL_Password = IEncryption.Encrypt(_passwordBoxMySQL.Password);
+            }
+            else
+            {
+                newDatabaseViewModel.SQLServer_Password = _passwordBoxSQLServer.Password;
+                newDatabaseViewModel.PostgreSQL_Password = _passwordBoxPostgreSQL.Password;
+                newDatabaseViewModel.MySQL_Password = _passwordBoxMySQL.Password;
+            }
             DialogResult = true;
         }
 

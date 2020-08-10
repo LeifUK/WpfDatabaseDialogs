@@ -71,7 +71,7 @@
                              Converter={StaticResource EnumComparisonConverter},
                              ConverterParameter={x:Static Model:DatabaseProvider.SQLite}}"/>
 
-                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Database" Margin="20,0,10,10" Padding="10">
+                    <GroupBox Grid.Row="2" Grid.Column="0" Header="Database" Margin="20,0,0,10" Padding="10">
                         <GroupBox.Style>
                             <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle}">
                                 <Style.Triggers>
@@ -128,7 +128,6 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0" >
                         <Grid.RowDefinitions>
@@ -140,7 +139,6 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">

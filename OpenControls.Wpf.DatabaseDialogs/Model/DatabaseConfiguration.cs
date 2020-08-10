@@ -124,9 +124,7 @@
         public bool SQLServer_UseIPv6 { get; set; }
         public ushort SQLServer_Port { get; set; }
         public bool SQLServer_UseWindowsAuthentication { get; set; }
-        // Not persisted
         public string SQLServer_UserName { get; set; }
-        // Not persisted
         public string SQLServer_Password { get; set; }
         public string SQLServer_Folder { get; set; }
         public string SQLServer_Filename { get; set; }
@@ -136,9 +134,7 @@
         public bool PostgreSQL_UseIPv6 { get; set; }
         public ushort PostgreSQL_Port { get; set; }
         public bool PostgreSQL_UseWindowsAuthentication { get; set; }
-        // Not persisted
         public string PostgreSQL_UserName { get; set; }
-        // Not persisted
         public string PostgreSQL_Password { get; set; }
         public string PostgreSQL_DatabaseName { get; set; }
 
@@ -146,9 +142,7 @@
         public bool MySQL_UseIPv6 { get; set; }
         public ushort MySQL_Port { get; set; }
         public bool MySQL_UseWindowsAuthentication { get; set; }
-        // Not persisted
         public string MySQL_UserName { get; set; }
-        // Not persisted
         public string MySQL_Password { get; set; }
         public string MySQL_DatabaseName { get; set; }
 

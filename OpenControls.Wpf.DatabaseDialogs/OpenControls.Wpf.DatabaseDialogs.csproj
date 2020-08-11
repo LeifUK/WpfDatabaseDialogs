@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DatabaseProvider.cs" />
+    <Compile Include="Model\IEncryption.cs" />
+    <Compile Include="Model\Encryption.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\NewDatabaseViewModel.cs" />
     <Compile Include="ViewModel\OpenDatabaseViewModel.cs" />

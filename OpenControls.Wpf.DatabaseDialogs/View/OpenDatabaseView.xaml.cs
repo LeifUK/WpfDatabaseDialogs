@@ -54,8 +54,10 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
 
         private void _buttonRefresh_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Input.Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             ViewModel.OpenDatabaseViewModel openDatabaseViewModel = DataContext as ViewModel.OpenDatabaseViewModel;
             openDatabaseViewModel.Refresh();
+            System.Windows.Input.Mouse.OverrideCursor = null;
         }
 
         private void _buttonOK_Click(object sender, RoutedEventArgs e)

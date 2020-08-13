@@ -37,8 +37,10 @@ namespace OpenControls.Wpf.DatabaseDialogs.View
 
         private void _buttonRefresh_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Input.Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             ViewModel.NewDatabaseViewModel newDatabaseViewModel = DataContext as ViewModel.NewDatabaseViewModel;
             newDatabaseViewModel.Refresh();
+            System.Windows.Input.Mouse.OverrideCursor = null;
         }
 
         private void _buttonBrowseMicrosoftSQLServerFolders_Click(object sender, RoutedEventArgs e)

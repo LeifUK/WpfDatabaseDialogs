@@ -150,7 +150,7 @@ namespace WpfFungusApp
                 OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider databaseProvider = (OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider)newDatabaseViewModel.SelectedDatabaseProvider;
                 if (databaseProvider == OpenControls.Wpf.DatabaseDialogs.Model.DatabaseProvider.SQLite)
                 {
-                    SQLiteDatabase.CreateDatabase(this, newDatabaseViewModel.SQLite_Folder, newDatabaseViewModel.SQLite_Filename);
+                    SQLiteDatabase.CreateDatabase(this, newDatabaseViewModel.SQLite_Folder, newDatabaseViewModel.SQLite_DatabaseName);
                     IDatabaseHost.IConfigurationStore = new DBStore.SQLiteConfigurationStore(IDatabaseHost.Database);
                     IDatabaseHost.ISpeciesStore = new DBStore.SQLiteSpeciesStore(IDatabaseHost.Database);
                     IDatabaseHost.IImagePathsStore = new DBStore.SQLiteImagePathsStore(IDatabaseHost.Database);

@@ -32,6 +32,7 @@
             SavePassword = IConfigurationSerialiser.ReadEntry<bool>("SavePassword", SavePassword);
             SelectedDatabaseProvider = IConfigurationSerialiser.ReadEntry<Model.DatabaseProvider>("SelectedDatabaseProvider", SelectedDatabaseProvider);
             SQLite_Folder = IConfigurationSerialiser.ReadEntry<string>("SQLite_Folder", SQLite_Folder);
+            SQLServer_DatabaseName = IConfigurationSerialiser.ReadEntry<string>("SQLite_Database", SQLServer_DatabaseName);
             SQLite_Filename = IConfigurationSerialiser.ReadEntry<string>("SQLite_Filename", SQLite_Filename);
             SQLServer_UseLocalServer = IConfigurationSerialiser.ReadEntry<bool>("SQLServer_UseLocalServer", SQLServer_UseLocalServer);
             SQLServer_IPAddress = IConfigurationSerialiser.ReadEntry<string>("SQLServer_IPAddress", SQLServer_IPAddress);
@@ -73,8 +74,8 @@
             IConfigurationSerialiser.WriteEntry<bool>("SavePassword", SavePassword);
             IConfigurationSerialiser.WriteEntry<Model.DatabaseProvider>("SelectedDatabaseProvider", SelectedDatabaseProvider);
             IConfigurationSerialiser.WriteEntry<string>("SQLite_Folder", SQLite_Folder);
-            IConfigurationSerialiser.WriteEntry<string>("SQLite_Folder", SQLite_Folder);
-            IConfigurationSerialiser.WriteEntry<string>("SQLite_Filename", SQLite_Filename);
+            IConfigurationSerialiser.WriteEntry<string>("SQLite_Database", SQLServer_DatabaseName);
+            IConfigurationSerialiser.WriteEntry<string>("SQLite_FilenameAndPath", SQLite_Filename);
             IConfigurationSerialiser.WriteEntry<bool>("SQLServer_UseLocalServer", SQLServer_UseLocalServer);
             IConfigurationSerialiser.WriteEntry<string>("SQLServer_IPAddress", SQLServer_IPAddress);
             IConfigurationSerialiser.WriteEntry<bool>("SQLServer_UseIPv6", SQLServer_UseIPv6);
@@ -116,6 +117,7 @@
 
         public Model.DatabaseProvider SelectedDatabaseProvider { get; set; }
         public string SQLite_Folder { get; set; }
+        public string SQLite_DatabaseName { get; set; }
         public string SQLite_Filename { get; set; }
 
         public int SelectedSqlServerInstance { get; set; }

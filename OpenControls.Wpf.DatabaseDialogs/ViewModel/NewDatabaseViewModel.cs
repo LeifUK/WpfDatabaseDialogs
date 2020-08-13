@@ -100,16 +100,16 @@ namespace OpenControls.Wpf.DatabaseDialogs.ViewModel
             }
         }
 
-        public string SQLite_Filename
+        public string SQLite_DatabaseName
         {
             get
             {
-                return IDatabaseConfiguration.SQLite_Filename;
+                return IDatabaseConfiguration.SQLite_DatabaseName;
             }
             set
             {
-                IDatabaseConfiguration.SQLite_Filename = value;
-                NotifyPropertyChanged("SQLite_Filename");
+                IDatabaseConfiguration.SQLite_DatabaseName = value;
+                NotifyPropertyChanged("SQLite_DatabaseName");
             }
         }
 

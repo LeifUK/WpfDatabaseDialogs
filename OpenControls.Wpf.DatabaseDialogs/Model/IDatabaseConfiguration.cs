@@ -7,6 +7,7 @@
         bool SavePassword { get; set; }
 
         string SQLite_Folder { get; set; }
+        string SQLite_DatabaseName { get; set; }
         string SQLite_Filename { get; set; }
 
         int SelectedSqlServerInstance { get; set; }

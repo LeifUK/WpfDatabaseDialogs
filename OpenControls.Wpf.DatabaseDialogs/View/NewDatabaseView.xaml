@@ -98,7 +98,7 @@
                             <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding SQLite_Folder}" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"/>
                             <Button Grid.Row="0" Grid.Column="4" Content="Browse" x:Name="_buttonBrowseSQLiteFolders" Style="{StaticResource Button80Style}" Click="_buttonBrowseSQLiteFolders_Click"/>
                             <Label Grid.Row="2" Grid.Column="0" Content="Name" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_Filename}" Style="{StaticResource TextBoxStyle}" />
+                            <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding SQLite_DatabaseName}" Style="{StaticResource TextBoxStyle}" />
                         </Grid>
                     </GroupBox>
                 </Grid>
